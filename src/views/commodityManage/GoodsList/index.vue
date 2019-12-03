@@ -114,14 +114,14 @@ export default {
       // console.log(pageNum)
       this.$instance1({
         method: "get",
-        url: "/sGoods/queryGoods",
+        url: "/sGoodsInventory/querySGoodsInventorys",
         params: {
           pageNum: pageNum,
           pageSize: pageSize
         }
       })
         .then(res => {
-          // window.console.log(res)
+          window.console.log(res)
           this.tableData = res.data.list;
           this.total = res.data.total;
           // console.log(this.total)
