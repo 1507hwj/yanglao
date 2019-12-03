@@ -54,6 +54,7 @@
 
 <script>
 import { validUsername } from '@/utils/validate'
+import { log } from 'util';
 
 export default {
   name: 'Login',
@@ -106,10 +107,12 @@ export default {
       })
     },
     handleLogin() {
+      // window.console.log('redirect',this.redirect)
       this.$refs.loginForm.validate(valid => {
         if (valid) {
           this.loading = true
           this.$store.dispatch('user/login', this.loginForm).then(() => {
+            window.console.log('redirect',this.redirect)
             this.$router.push({ path: this.redirect || '/' })
             this.loading = false
           }).catch(() => {

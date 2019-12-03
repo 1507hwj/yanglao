@@ -1,6 +1,6 @@
 <template>
   <div class="dashboard-container">
-    <div class="dashboard-text">name: {{ name }}</div>
+    <div class="dashboard-text">欢迎来到康养无忧机构后台！</div>
   </div>
 </template>
 
@@ -8,11 +8,9 @@
 import { mapGetters } from 'vuex'
 
 export default {
-  name: 'Dashboard',
+  // name: 'Dashboard',
   computed: {
-    ...mapGetters([
-      'name'
-    ])
+    ...mapGetters(['name'])
   }
 }
 </script>
