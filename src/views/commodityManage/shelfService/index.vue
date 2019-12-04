@@ -62,10 +62,10 @@
           <img :src="scope.row.img" alt="" />
         </template>
       </el-table-column>
-      <!-- <el-table-column prop="priceOriginal" label="上架时间"> </el-table-column> -->
       <el-table-column prop="" label="操作">
         <template slot-scope="scope">
-          <el-button size="mini" @click="handleDelete(scope.$index, scope.row)" class="button" type="danger">下架</el-button>
+          <el-button size="mini" :type="scope.row.state==0?'success':'danger'" @click="changStatus(scope.$index, scope.row)">{{scope.row.state==0?"上架":"下架"}}</el-button>
+
         </template>
       </el-table-column>
     </el-table>
@@ -154,7 +154,9 @@ export default {
       currentPage: 1,
       total: 0,
       pageNum: 1,
-      pageSize: 5
+      pageSize: 5,
+      // 上下架切换状态
+      status: false
     }
   },
   methods: {
@@ -218,7 +220,7 @@ export default {
       })
         .then(res => {
           this.goodsName = res.data.list;
-          window.console.log(this.goodsName);
+          // window.console.log(this.goodsName);
         })
         .catch(err => {
           window.console.log(err);
@@ -334,6 +336,28 @@ export default {
       console.log(this.pageNum)
       // console.log(`当前页: ${val}`);
       this.getData(this.pageNum, this.pageSize)
+    },
+    // ---------------------------------上架下架进行切换--------------------------
+    changStatus (index, row) {
+      // this.status = true;
+      console.log(row.id)
+      this.$instance1({
+        method: "put",
+        url: "/sgoodsSale/closeGoodsSale",
+        params: {
+          id: row.id
+        }
+
+      }).then((res) => {
+        console.log(res)
+        if (res.data.code == 1) {
+          // this.status = true
+          this.getData(this.pageNum, this.pageSize)
+        }
+      }).catch((err) => {
+        console.log(err)
+      })
+
     }
   },
   created () {

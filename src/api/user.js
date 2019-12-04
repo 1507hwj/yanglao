@@ -1,8 +1,8 @@
-import request from '@/utils/request'
+import request from '../utils/request'
 
 export function login(data) {
   return request({
-    url: '/user/login',
+    url: '/web/loginByAccount',
     method: 'post',
     data
   })
