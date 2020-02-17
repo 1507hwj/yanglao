@@ -24,25 +24,32 @@ module.exports = {
    * In most cases please use '/' !!!
    * Detail: https://cli.vuejs.org/config/#publicpath
    */
-  publicPath: '/',
+  publicPath: './',
   outputDir: 'dist',
   assetsDir: 'static',
   // lintOnSave: process.env.NODE_ENV === 'development',
   lintOnSave: false,
   productionSourceMap: false,
   devServer: {
+    // host: '127.0.0.1', // 因为报错[WDS] Disconnected! ，添加这行即可解决
+
     port: port,
     open: true,
     overlay: {
       warnings: false,
       errors: true
     },
+    // headers: {
+    //   'Access-Control-Allow-Origin': '*'
+    // },
+    // hotOnly: false,
+    // disableHostCheck: true,
     proxy: {
       // change xxx-api/login => mock/login
       // detail: https://cli.vuejs.org/config/#devserver-proxy
       [process.env.VUE_APP_BASE_API]: {
-        // target: `http://127.0.0.1:${port}/mock`,
-        target: `http://120.25.214.5:8081`,
+        target: `http://127.0.0.1:${port}/mock`,
+        // target: `http://120.25.214.5:8081`,
         changeOrigin: true,
         pathRewrite: {
           ['^' + process.env.VUE_APP_BASE_API]: ''
@@ -57,7 +64,10 @@ module.exports = {
     name: name,
     resolve: {
       alias: {
-        '@': resolve('src')
+        '@': resolve('src'),
+        'assets': '@/assets',
+        'components': '@/components',
+        'views': '@/views',
       }
     }
   },

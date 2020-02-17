@@ -13,8 +13,8 @@
           <el-option label=5 value=5></el-option>
         </el-select>
       </el-form-item>
-      <el-form-item label="哪个职位" prop="organizationid">
-        <el-select v-model="form.organizationid" placeholder="请选择">
+      <el-form-item label="哪个职位" prop="positionid">
+        <el-select v-model="form.positionid" placeholder="请选择">
           <el-option label=1 value=1></el-option>
           <el-option label=2 value=2></el-option>
           <el-option label=3 value=3></el-option>
@@ -105,18 +105,22 @@ export default {
           let fd = new FormData();
           window.console.log('fd', fd);
           fd.append('accountid', this.form.accountid); //账号组织表ID
-          fd.append('organizationid', this.form.organizationid);//账号组织表ID
+          fd.append('organizationid', 1);//账号组织表ID
           fd.append('positionid', this.form.positionid);  //发布的哪个职位
           fd.append('openpositionNumber', this.form.openpositionNumber); //开放职位的数目
           fd.append('positionValidity', this.form.positionValidity);  //职位有效期
           fd.append('workAddress', this.form.workAddress);  //工作地址
           fd.append('salaryTo', this.form.salaryTo);   //薪资下限
           fd.append('salaryFrom', this.form.salaryFrom);   //薪资上限
-          fd.append('positionName ', this.form.salaryFrom);   //职位名称
-          this.$axios.post('http://120.25.214.5:8081/openposition/recordOpenPosition', fd, {
+          fd.append('positionName ', this.form.positionName);   //职位名称
+          this.$instance3({
+            method: "post",
+            url: "/openposition/recordOpenPosition",
+            data: fd
           })
             .then(res => {
-              window.console.log('222', res.data)
+              // window.console.log('222', res.data)
+              console.log(res)
               if (res.data.code == 0) {
                 this.$message({
                   type: "warning",
@@ -137,7 +141,7 @@ export default {
             });
           //   this.listLoading = true
           //   表单重置
-          this.resetForm(formName)
+          // this.resetForm(formName)
           this.dialogVisible = false
           //   this.getList()
         } else {

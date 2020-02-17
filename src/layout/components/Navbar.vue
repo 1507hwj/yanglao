@@ -1,51 +1,30 @@
 <template>
   <div>
     <div class="navbar">
-      <hamburger
-        :is-active="sidebar.opened"
-        class="hamburger-container"
-        @toggleClick="toggleSideBar"
-      />
+      <hamburger :is-active="sidebar.opened" class="hamburger-container" @toggleClick="toggleSideBar" />
 
       <breadcrumb class="breadcrumb-container" />
-
       <div class="right-menu">
-        <!-- <el-dropdown class="avatar-container" trigger="click">
-        <div class="avatar-wrapper">
-          <img :src="avatar+'?imageView2/1/w/80/h/80'" class="user-avatar">
-          <i class="el-icon-caret-bottom" />
-        </div>
-        <el-dropdown-menu slot="dropdown" class="user-dropdown">
-          <router-link to="/">
-            <el-dropdown-item>
-              Home
+        <template v-if="device!=='mobile'">
+          <screenfull id="screenfull" class="right-menu-item hover-effect" />
+        </template>
+        <el-dropdown class="avatar-container" trigger="click">
+          <div class="avatar-wrapper">
+            <img src='@/assets/user.png' style="width:36px;height:36px;vertical-align:middle;margin-right:10px">
+            <span style="vertical-align:middle;margin-right:10px">{{getUserName}}</span>
+            <i class="el-icon-caret-bottom" style="vertical-align:middle;" />
+          </div>
+          <el-dropdown-menu slot="dropdown" class="user-dropdown">
+            <router-link to="/">
+              <el-dropdown-item>
+                Home
+              </el-dropdown-item>
+            </router-link>
+            <el-dropdown-item divided>
+              <span style="display:block;" @click="logout">退出</span>
             </el-dropdown-item>
-          </router-link>
-          <a target="_blank" href="https://github.com/PanJiaChen/vue-admin-template/">
-            <el-dropdown-item>Github</el-dropdown-item>
-          </a>
-          <a target="_blank" href="https://panjiachen.github.io/vue-element-admin-site/#/">
-            <el-dropdown-item>Docs</el-dropdown-item>
-          </a>
-          <el-dropdown-item divided>
-            <span style="display:block;" @click="logout">Log Out</span>
-          </el-dropdown-item>
-        </el-dropdown-menu>
-      </el-dropdown> -->
-        <div>
-          <!-- <i class="el-icon-setting" style="margin-right: 15px"></i> -->
-          <img
-            src="../../assets/user.png"
-            alt=""
-            style="width:36px;height:36px;vertical-align:middle;margin-right:10px"
-          />
-          <!-- <el-dropdown-menu slot="dropdown">
-          <el-dropdown-item>查看</el-dropdown-item>
-          <el-dropdown-item>新增</el-dropdown-item>
-          <el-dropdown-item>删除</el-dropdown-item>
-        </el-dropdown-menu> -->
-          <span style="margin-right:40px;">王小虎</span>
-        </div>
+          </el-dropdown-menu>
+        </el-dropdown>
       </div>
     </div>
   </div>
@@ -56,19 +35,29 @@ import { mapGetters } from 'vuex'
 import Breadcrumb from '@/components/Breadcrumb'
 import Hamburger from '@/components/Hamburger'
 
+import Screenfull from '@/components/Screenfull'
+
+
+import { getName, setName, removeName } from '@/utils/auth'
+
 export default {
   components: {
     Breadcrumb,
-    Hamburger
+    Hamburger,
+    Screenfull
   },
   computed: {
-    ...mapGetters(['sidebar', 'avatar'])
+    ...mapGetters(['name', 'sidebar', 'avatar', 'device']),
+    getUserName () {
+      return getName()
+    }
   },
   methods: {
-    toggleSideBar() {
+    toggleSideBar () {
       this.$store.dispatch('app/toggleSideBar')
     },
-    async logout() {
+    async logout () {
+      removeName()
       await this.$store.dispatch('user/logout')
       this.$router.push(`/login?redirect=${this.$route.fullPath}`)
     }
@@ -117,6 +106,7 @@ export default {
       font-size: 18px;
       color: #5a5e66;
       vertical-align: text-bottom;
+      float: left;
 
       &.hover-effect {
         cursor: pointer;

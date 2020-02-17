@@ -1,8 +1,8 @@
 <template>
   <div>
     <p class="add">
-      <el-button @click="add">十 增加</el-button>
-      <el-button>进入店铺主页</el-button>
+      <el-button @click="add" style="float:left;margin-bottom:30px;">十 上架</el-button>
+      <el-button style="float:right;margin-bottom:30px;" type="primary" plain>进入养老机构主页</el-button>
     </p>
     <el-dialog :visible.sync="dialogVisible" class="my_dialog" width="70%">
       <el-container style="height:100%">
@@ -11,39 +11,37 @@
             <el-input placeholder="请输入内容" prefix-icon="el-icon-search" v-model.trim="goods" style="width:60%" @change="getSearchValue"></el-input>
             <el-button type="primary" style="margin-left:20px;" @click="searchGoods">搜索</el-button>
           </div>
-          <table class="Account-table" cellpadding="6" cellspacing="6" width="100%" height="70%" style="display:block;">
-            <thead>
-              <th>
-                <td>商品名称</td>
-              </th>
-            </thead>
-            <tbody height="100%" style="overflow:auto;display:block;" width="100%">
-              <tr class="Syhover" style="display:block;width:100%" v-for="(item,index) in goodsName" :key="index" @click="activeClick($event,index)">
-                <td>{{item.goodsName}}</td>
-              </tr>
-            </tbody>
-          </table>
-          <!-- <el-table :data="goodsName" style="width: 100%">
-            <el-table-column prop="goodsName" label="商品名称" @click="activeClick($event)">
+          <el-table :data="goodsName" style="width: 100%">
+            <el-table-column label="房型">
+              <template slot-scope="scope">
+                <div @click="getGoodsInfo(scope.$index,scope.row)">{{scope.row.goodsName}}</div>
+              </template>
             </el-table-column>
-          </el-table> -->
+            <el-table-column label="房间编号">
+              <template slot-scope="scope">
+                <div @click="getGoodsInfo(scope.$index,scope.row)">{{scope.row.goodsName}}</div>
+              </template>
+            </el-table-column>
+          </el-table>
         </el-aside>
         <el-main>
-          <el-form ref="form" :model="form" label-width="120px">
-            <el-form-item label="名称">
-              <el-input v-model="form.username" placeholder="请输入名称" style="width:82%"></el-input>
+          <el-form ref="form" :model="goodsInfo" label-width="120px">
+            <el-form-item label="房型" prop="goodsName">
+              <el-input v-model="goodsInfo.goodsName" placeholder="请输入名称" style="width:82%"></el-input>
             </el-form-item>
-            <el-form-item label="数量">
-              <el-input v-model="form.number" placeholder="请输入数量" style="width:82%" @change="getNumber"></el-input>
+            <el-form-item label="房间编号" prop="number">
+              <el-input v-model="goodsInfo.number" placeholder="请输入数量" style="width:82%"></el-input>
             </el-form-item>
-            <el-form-item label="原始价格">
-              <el-input v-model="form.oldPrice" placeholder="请输入原始价格" style="width:82%" @change="getPriceOriginal"></el-input>
+            <el-form-item label="原始价格" prop="oldPrice">
+              <el-input v-model="goodsInfo.oldPrice" placeholder="请输入原始价格" style="width:82%"></el-input>
             </el-form-item>
-            <el-form-item label="价格范围">
-              <el-input v-model="form.priceFrom" placeholder="请输入价格" style="width:39.5%" @change="getPriceFrom"></el-input>—
-              <el-input v-model="form.priceTo" placeholder="请输入价格" style="width:39.5%" @change="getPriceTo"></el-input>
+            <el-form-item label="价格范围" prop="priceFrom" style="display:inline-block;width:50%;float:left">
+              <el-input v-model="goodsInfo.priceFrom" placeholder="请输入价格"></el-input>
             </el-form-item>
-            <el-form-item class="confirm">
+            <el-form-item label="一" prop="priceTo" style="display:inline-block;width:30%;float:left" label-width="30px">
+              <el-input v-model="goodsInfo.priceTo" placeholder="请输入价格"></el-input>
+            </el-form-item>
+            <el-form-item class="confirm" style="padding-top:80px;">
               <el-button type="primary" @click="racking">确定</el-button>
               <el-button @click="dialogVisible = false">取消</el-button>
             </el-form-item>
@@ -51,24 +49,244 @@
         </el-main>
       </el-container>
     </el-dialog>
-    <el-table :data="tableData" style="width: 100%">
-      <el-table-column prop="goodsName" label="商品名称"> </el-table-column>
-      <el-table-column prop="number" label="商品数量"> </el-table-column>
-      <el-table-column prop="priceFrom" label="商品下限价格"> </el-table-column>
-      <el-table-column prop="priceTo" label="商品上限价格"> </el-table-column>
-      <el-table-column prop="priceOriginal" label="商品原始价格"> </el-table-column>
-      <el-table-column prop="img" label="商品图片">
+    <!-- <el-table :data="tableData" style="width: 100%">
+      <el-table-column prop="goodsName" label="房型"> </el-table-column>
+      <el-table-column prop="goodsType" label="房间编号"> </el-table-column>
+       <el-table-column prop="img" label="房间图片">
         <template slot-scope="scope">
-          <img :src="scope.row.img" alt="" />
+          <img :src="url+item" width="50 " height="50" v-for="item in (scope.row.goodsImages.split(','))" :key="item" />
         </template>
       </el-table-column>
+        <el-table-column prop="number" label="原始价"> </el-table-column>
+      <el-table-column prop="priceFrom" label="打折价"> </el-table-column>
+
+     
       <el-table-column prop="" label="操作">
         <template slot-scope="scope">
           <el-button size="mini" :type="scope.row.state==0?'success':'danger'" @click="changStatus(scope.$index, scope.row)">{{scope.row.state==0?"上架":"下架"}}</el-button>
 
         </template>
       </el-table-column>
-    </el-table>
+    </el-table> -->
+    <el-tabs v-model="activeName" @tab-click="handleClick">
+      <el-tab-pane label="全部" name="first">
+        <el-table :data="tableData1" style="width: 100%">
+          <el-table-column prop="state" label="售卖状态">
+            <template slot-scope="scope">
+              <div>
+                <el-tag>{{scope.row.state}}</el-tag>
+              </div>
+            </template>
+
+          </el-table-column>
+
+          <el-table-column prop="houseType" label="房型">
+             <template slot-scope="scope">
+              <div>
+                <i class="iconfont  icon-home" style="font-size:22px;"></i>
+                <span>{{scope.row.houseType}}</span>
+              </div>
+            </template>
+          </el-table-column>
+          <el-table-column prop="roomNumber" label="房间编号">
+          </el-table-column>
+          <el-table-column prop="roomImg" label="房间图片">
+            <!-- <template slot-scope="scope">
+          <img :src="url+'/'+item" width="50 " height="50" v-for="item in (scope.row.goodsImages.split(','))" :key="item" />
+        </template> -->
+          </el-table-column>
+          <el-table-column prop="grade" label="标准等级">
+            <template>
+              <div>
+                <el-button type="text">S1</el-button>
+              </div>
+            </template>
+          </el-table-column>
+          <el-table-column label="操作 ">
+            <template slot-scope="scope ">
+              <el-button size="mini " @click="handleEdit(scope.$index, scope.row) ">编辑</el-button>
+              <el-button size="mini " type="danger " @click="handleDelete(scope.$index, scope.row) ">删除</el-button>
+            </template>
+          </el-table-column>
+        </el-table>
+      </el-tab-pane>
+      <el-tab-pane label="待售卖" name="second">
+        <el-table :data="tableData1" style="width: 100%">
+          <el-table-column prop="state" label="售卖状态">
+            <template slot-scope="scope">
+              <div>
+                <el-tag>{{scope.row.state}}</el-tag>
+              </div>
+            </template>
+          </el-table-column>
+
+          <el-table-column prop="houseType" label="房型">
+             <template slot-scope="scope">
+              <div>
+                <i class="iconfont  icon-home" style="font-size:22px;"></i>
+                <span>{{scope.row.houseType}}</span>
+              </div>
+            </template>
+          </el-table-column>
+          <el-table-column prop="roomNumber" label="房间编号">
+          </el-table-column>
+          <el-table-column prop="roomImg" label="房间图片">
+            <!-- <template slot-scope="scope">
+          <img :src="url+'/'+item" width="50 " height="50" v-for="item in (scope.row.goodsImages.split(','))" :key="item" />
+        </template> -->
+          </el-table-column>
+          <el-table-column prop="grade" label="标准等级">
+            <template>
+              <div>
+                <el-button type="text">S1</el-button>
+              </div>
+            </template>
+          </el-table-column>
+          <el-table-column label="操作 ">
+            <template slot-scope="scope ">
+              <el-button size="mini " @click="handleEdit(scope.$index, scope.row) ">编辑</el-button>
+              <el-button size="mini " type="danger " @click="handleDelete(scope.$index, scope.row) ">删除</el-button>
+            </template>
+          </el-table-column>
+        </el-table>
+      </el-tab-pane>
+      <el-tab-pane label="已预定" name="third">
+        <el-table :data="tableData1" style="width: 100%">
+          <el-table-column prop="state" label="售卖状态">
+            <template slot-scope="scope">
+              <div>
+                <el-tag>{{scope.row.state}}</el-tag>
+              </div>
+            </template>
+          </el-table-column>
+
+          <el-table-column prop="houseType" label="房型">
+             <template slot-scope="scope">
+              <div>
+                <i class="iconfont  icon-home" style="font-size:22px;"></i>
+                <span>{{scope.row.houseType}}</span>
+              </div>
+            </template>
+          </el-table-column>
+          <el-table-column prop="roomNumber" label="房间编号">
+          </el-table-column>
+          <el-table-column prop="roomImg" label="房间图片">
+            <!-- <template slot-scope="scope">
+          <img :src="url+'/'+item" width="50 " height="50" v-for="item in (scope.row.goodsImages.split(','))" :key="item" />
+        </template> -->
+          </el-table-column>
+          <el-table-column prop="grade" label="标准等级">
+            <template>
+              <div>
+                <el-button type="text">S1</el-button>
+              </div>
+            </template>
+          </el-table-column>
+          <el-table-column label="操作 ">
+            <template slot-scope="scope ">
+              <el-button size="mini " @click="handleEdit(scope.$index, scope.row) ">编辑</el-button>
+              <el-button size="mini " type="danger " @click="handleDelete(scope.$index, scope.row) ">删除</el-button>
+            </template>
+          </el-table-column>
+        </el-table>
+      </el-tab-pane>
+      <el-tab-pane label="已售卖" name="fourth">
+        <el-table :data="tableData1" style="width: 100%">
+          <el-table-column prop="state" label="售卖状态">
+            <template slot-scope="scope">
+              <div>
+                <el-tag>{{scope.row.state}}</el-tag>
+              </div>
+            </template>
+          </el-table-column>
+
+          <el-table-column prop="houseType" label="房型">
+             <template slot-scope="scope">
+              <div>
+                <i class="iconfont  icon-home" style="font-size:22px;"></i>
+                <span>{{scope.row.houseType}}</span>
+              </div>
+            </template>
+          </el-table-column>
+          <el-table-column prop="roomNumber" label="房间编号">
+          </el-table-column>
+          <el-table-column prop="roomImg" label="房间图片">
+            <!-- <template slot-scope="scope">
+          <img :src="url+'/'+item" width="50 " height="50" v-for="item in (scope.row.goodsImages.split(','))" :key="item" />
+        </template> -->
+          </el-table-column>
+          <el-table-column prop="grade" label="标准等级">
+            <template>
+              <div>
+                <el-button type="text">S1</el-button>
+              </div>
+            </template>
+          </el-table-column>
+          <el-table-column label="操作 ">
+            <template slot-scope="scope ">
+              <el-button size="mini " @click="handleEdit(scope.$index, scope.row) ">编辑</el-button>
+              <el-button size="mini " type="danger " @click="handleDelete(scope.$index, scope.row) ">删除</el-button>
+            </template>
+          </el-table-column>
+        </el-table>
+      </el-tab-pane>
+      <el-tab-pane label="已入住" name="fifth">
+        <el-table :data="tableData1" style="width: 100%">
+          <el-table-column prop="state" label="售卖状态">
+            <template slot-scope="scope">
+              <div>
+                <el-tag>{{scope.row.state}}</el-tag>
+              </div>
+            </template>
+          </el-table-column>
+          <el-table-column prop="houseType" label="房型">
+            <template slot-scope="scope">
+              <div>
+                <i class="iconfont  icon-home" style="font-size:22px;"></i>
+                <span>{{scope.row.houseType}}</span>
+              </div>
+            </template>
+          </el-table-column>
+          <el-table-column prop="roomNumber" label="房间编号">
+          </el-table-column>
+          <el-table-column prop="roomImg" label="房间图片">
+          </el-table-column>
+          <el-table-column prop="grade" label="标准等级">
+            <template>
+              <div>
+                <el-button type="text">S1</el-button>
+              </div>
+            </template>
+          </el-table-column>
+          <el-table-column label="操作 ">
+            <template slot-scope="scope ">
+              <el-button size="mini " @click="handleEdit(scope.$index, scope.row) ">编辑</el-button>
+              <el-button size="mini " type="danger " @click="handleDelete(scope.$index, scope.row) ">删除</el-button>
+            </template>
+          </el-table-column>
+        </el-table>
+      </el-tab-pane>
+    </el-tabs>
+    <!-- <el-table :data="tableData1" style="width: 100%">
+      <el-table-column prop="houseType" label="房型"></el-table-column>
+      <el-table-column prop="roomNumber" label="房间编号">
+      </el-table-column>
+      <el-table-column prop="roomImg" label="房间图片">
+      </el-table-column>
+      <el-table-column prop="grade" label="标准等级">
+        <template>
+          <div>
+            <el-button type="text">S1</el-button>
+          </div>
+        </template>
+      </el-table-column>
+      <el-table-column label="操作 ">
+        <template slot-scope="scope ">
+          <el-button size="mini " @click="handleEdit(scope.$index, scope.row) ">编辑</el-button>
+          <el-button size="mini " type="danger " @click="handleDelete(scope.$index, scope.row) ">删除</el-button>
+        </template>
+      </el-table-column>
+    </el-table> -->
     <div class="block">
       <el-pagination @size-change="handleSizeChange" @current-change="handleCurrentChange" :current-page="currentPage" :page-sizes="[5,10, 15, 20]" :page-size="100" layout="total, sizes, prev, pager, next, jumper" :total="total">
       </el-pagination>
@@ -76,67 +294,36 @@
   </div>
 </template>
 <script>
-// 已上架服务
+// 出售中的商品
 export default {
   data () {
     return {
+      activeName: 'first',
+      tableData1: [
+        {
+          state: "待售卖",
+          houseType: "两室一厅",
+          roomNumber: "D1-809",
+          roomImg: "",
+          grade: "S1"
+        },
+        {
+          state: "已售卖",
+          houseType: "两室一厅",
+          roomNumber: "D1-809",
+          roomImg: "",
+          grade: "S1"
+        },
+        {
+          state: "已预定",
+          houseType: "两室一厅",
+          roomNumber: "D1-809",
+          roomImg: "",
+          grade: "S1"
+        },
+      ],
+      url: "http://120.25.214.5:8081/",
       tableData: [
-        // {
-        //   date: '2016-05-02  8:30',
-        //   name: '王小虎',
-        //   shopName: '上海市普陀区金沙江路 1518 弄',
-        //   price: '98.9',
-        //   kitchenInfo: '一厨一卫',
-        //   img: require('../../../assets/default_img.png')
-        // },
-        // {
-        //   date: '2016-05-02  8:30',
-        //   name: '王小虎',
-        //   shopName: '上海市普陀区金沙江路 1518 弄',
-        //   price: '98.9',
-        //   kitchenInfo: '一厨一卫',
-        //   img: require('../../../assets/default_img.png')
-        // },
-        // {
-        //   date: '2016-05-02  8:30',
-        //   name: '王小虎',
-        //   shopName: '上海市普陀区金沙江路 1518 弄',
-        //   price: '98.9',
-        //   kitchenInfo: '一厨一卫',
-        //   img: require('../../../assets/default_img.png')
-        // },
-        // {
-        //   date: '2016-05-02  8:30',
-        //   name: '王小虎',
-        //   shopName: '上海市普陀区金沙江路 1518 弄',
-        //   price: '98.9',
-        //   kitchenInfo: '一厨一卫',
-        //   img: require('../../../assets/default_img.png')
-        // },
-        // {
-        //   date: '2016-05-02  8:30',
-        //   name: '王小虎',
-        //   shopName: '上海市普陀区金沙江路 1518 弄',
-        //   price: '98.9',
-        //   kitchenInfo: '一厨一卫',
-        //   img: require('../../../assets/default_img.png')
-        // },
-        // {
-        //   date: '2016-05-02  8:30',
-        //   name: '王小虎',
-        //   shopName: '上海市普陀区金沙江路 1518 弄',
-        //   price: '98.9',
-        //   kitchenInfo: '一厨一卫',
-        //   img: require('../../../assets/default_img.png')
-        // },
-        // {
-        //   date: '2016-05-02  8:30',
-        //   name: '王小虎',
-        //   shopName: '上海市普陀区金沙江路 1518 弄',
-        //   price: '98.9',
-        //   kitchenInfo: '一厨一卫',
-        //   img: require('../../../assets/default_img.png')
-        // }
       ],
       dialogVisible: false,
       form: {
@@ -147,7 +334,11 @@ export default {
         priceTo: ""
       },
       fileList: [],
+      // 商品其他信息
       goodsName: [],
+      goodsInfo: {
+
+      },
       goods: "",
       index: 0,
       // 分页数据
@@ -160,18 +351,21 @@ export default {
     }
   },
   methods: {
-    async handleDelete (index, row) {
-      // let { data } = await this.$axios.delete(
-      //   `http://localhost:1906/goodsAdmin/${row._id}`
-      // )
-      // if (data.code === 1) {
-      //   this.render()
-      //   this.$message({
-      //     message: '删除成功!', //消息提示
-      //     type: 'warning'
-      //   })
-      // }
-      window.console.log(index, row)
+    handleClick (tab, event) {
+      console.log(tab, event);
+    },
+    // -------------------------------根据点击药品名称获取药品其他信息----------------
+    getGoodsInfo (index, row) {
+      this.goodsInfo = {
+        ...row,
+        number: '',
+        storeid: '',
+        priceFrom: '',
+        priceTo: '',
+        priceOriginal: ""
+      }
+      console.log('goodsName', this.goodsInfo)
+
     },
     getData (pageNum, pageSize) {
       this.$instance1({
@@ -182,45 +376,29 @@ export default {
           pageSize: pageSize
         }
       }).then((res) => {
-        console.log(res)
-        this.tableData = res.data.list
-        this.total = res.data.total;
+        console.log('res', res)
+        this.tableData = res.data.data.list
+        this.total = res.data.data.total;
         console.log(this.total)
       }).catch((err) => {
         console.log(err)
       })
     },
-    // 点哪个哪个的内容就是显示在输入框
-    activeClick ($event, index) {
-      let target = $event.target.parentNode;
-      // console.log(target);
 
-      let active = document.getElementsByClassName("Syhover");
-      // console.log(active, "1111111111111");
-      let len = active.length;
-      for (let i = 0; i < len; i++) {
-        active[i].style.background = "";
-      }
-      let text = target.children[0].innerText;
-      target.style.background = "#efefef";
-
-      this.form.username = text;
-      console.log(this.form.username)
-      // console.log($event, index)
-
-      this.index = index;
-      // console.log(this.index)
-    },
     // -------------------------------------------商品搜索-----------------------------
+    // 表单重置
+    resetForm (formName) {
+      this.$refs[formName].resetFields()
+    },
     // 获取商品列表名称
     getGoodsList () {
       this.$instance1({
         method: "get",
-        url: "/sGoods/queryGoods"
+        url: "/sGoods/queryGoodsUnSale",
       })
         .then(res => {
-          this.goodsName = res.data.list;
-          // window.console.log(this.goodsName);
+          this.goodsName = res.data
+          window.console.log('未上架', res);
         })
         .catch(err => {
           window.console.log(err);
@@ -230,94 +408,73 @@ export default {
     getSearchValue (val) {
       window.console.log(val);
       this.goods = val;
+      if (!this.goods) {
+        this.getGoodsList()
+      }
     },
     // 搜索商品列表
     searchGoods () {
       this.$instance1({
         method: "get",
-        url: "/sGoods/queryGoods",
+        url: "/sGoods/queryGoodsUnSale",
         params: {
           goodsName: this.goods
         }
       })
         .then(res => {
           window.console.log(res);
-          this.goodsName = res.data.list;
+          this.goodsName = res.data;
         })
         .catch(err => {
           window.console.log(err);
         });
 
       // 清空输入框
-      this.goods = "";
+      // this.goods = "";
     },
     // -----------------------------获取增加表单输入框的值-----------------------------
-    // 获取数量
-    getNumber (val) {
-      this.form.number = val;
-      console.log(this.form.number);
-
-    },
-    // 获取原始价格
-    getPriceOriginal (val) {
-      this.form.oldPrice = val;
-      console.log(this.form.oldPrice)
-    },
-    // 获取价格下限
-    getPriceFrom (val) {
-      this.form.priceFrom = val;
-      console.log(this.form.priceFrom)
-    },
-    // 获取价格上限
-    getPriceTo (val) {
-      this.form.priceTo = val;
-      console.log(this.form.priceTo)
-    },
-    // 获取商品id
-    getGoodsID (index, row) {
-      console.log(index, row)
-
-    },
     // 上架商品
     racking () {
-      this.dialogVisible = false;
-      let id = this.goodsName[this.index].id;
-      console.log(id)
-      let formData = new FormData();
-      formData.append('goodsid', id)
-      formData.append('number', this.form.number)
-      formData.append('state', 1)
-      formData.append('priceFrom', this.form.priceFrom)
-      formData.append('priceTo', this.form.priceTo)
-      formData.append('priceOriginal', this.form.oldPrice)
-      formData.append('goodsName', this.form.username)
-      this.$instance1({
-        method: "post",
-        url: "/sgoodsSale/onGoodsSale",
-        data: formData
-      }).then((res) => {
-        console.log(res)
-        if (res.data.code == 1) {
-          this.$message({
-            message: "上架成功！",
-            type: "success"
+      console.log('form', this.form)
+      this.$refs['form'].validate(valid => {
+        if (valid) {
+          let formData = new FormData();
+          formData.append('goodsid', this.goodsInfo.id)
+          formData.append('number', this.goodsInfo.number)
+          formData.append('state', 1)
+          formData.append('priceFrom', this.goodsInfo.priceFrom)
+          formData.append('priceTo', this.goodsInfo.priceTo)
+          formData.append('priceOriginal', this.goodsInfo.oldPrice)
+          formData.append('goodsName', this.goodsInfo.goodsName)
+
+          this.$instance1({
+            method: "post",
+            url: "/sgoodsSale/onGoodsSale",
+            data: formData
           })
+            .then(res => {
+              window.console.log(res);
+              if (res.data.code == 1) {
+                this.$message({
+                  message: "上架成功！",
+                  type: "success"
+                })
+                this.getData(this.pageNum, this.pageSize)
+              }
+              // 重置表单
+              this.resetForm('form')
+            })
+            .catch(err => {
+              window.console.log(err);
+            });
+          this.dialogVisible = false;
 
-          // 点击确定之后清空输入框的值
-          this.form.username = ""
-          this.form.number = ""
-          this.form.priceFrom = ""
-          this.form.priceTo = ""
-          this.form.oldPrice = ""
 
-          // this.getGoodsList();
-          this.getData(this.pageNum, this.pageSize)
+        } else {
+          window.console.log('error submit!!')
+          return false
         }
-      }).catch((err) => {
-        console.log(err)
       })
-
-
 
     },
     add () {
@@ -339,7 +496,6 @@ export default {
     },
     // ---------------------------------上架下架进行切换--------------------------
     changStatus (index, row) {
-      // this.status = true;
       console.log(row.id)
       this.$instance1({
         method: "put",
@@ -351,7 +507,6 @@ export default {
       }).then((res) => {
         console.log(res)
         if (res.data.code == 1) {
-          // this.status = true
           this.getData(this.pageNum, this.pageSize)
         }
       }).catch((err) => {
@@ -368,8 +523,9 @@ export default {
 </script>
 <style scoped>
 .add {
-  background: #fff;
+  /* background: #fff; */
   /* margin-bottom: 10px; */
+  overflow: hidden;
 }
 .Syhover tr,
 .Syhover td {

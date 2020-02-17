@@ -7,6 +7,8 @@ import common from "./common.js";
 import settings from './modules/settings'
 import user from './modules/user'
 
+import tagsView from './modules/tagsView'
+
 Vue.use(Vuex)
 
 const store = new Vuex.Store({
@@ -14,7 +16,8 @@ const store = new Vuex.Store({
     common,
     app,
     settings,
-    user
+    user,
+    tagsView
   },
   getters
 })

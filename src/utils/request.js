@@ -13,6 +13,9 @@ import {
 const service = axios.create({
   //   baseURL: process.env.VUE_APP_BASE_API, // url = base url + request url
   baseURL: 'http://120.25.214.5:8081',
+  // http://120.25.214.5:8081
+  // http://192.168.1.171:8081
+  // http://192.168.1.10:8081
   // withCredentials: true, // send cookies when cross-domain requests
   timeout: 3000 // request timeout
 })
@@ -52,9 +55,9 @@ service.interceptors.response.use(
     const res = response.data
 
     // 如果返回的不是1，就提示error
-    window.console.log('res', res, 'res.code', res.code);
-    if (!res.code){
-        return res
+    // window.console.log('res', res, 'res.code', res.code); //res为登录成功后返回的数据
+    if (!res.code) {
+      return res
     }
     if (res.code != 1) {
       Message({
@@ -79,11 +82,11 @@ service.interceptors.response.use(
 
       return Promise.reject(new Error(res.message || 'Error'))
     } else {
-      Message({
-        message: '登陆成功！',
-        type: 'success',
-        duration: 2 * 1000
-      })
+      // Message({
+      //   message: '登录成功！',
+      //   type: 'success',
+      //   duration: 2 * 1000
+      // })
       return res
     }
   },
