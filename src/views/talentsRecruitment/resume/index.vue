@@ -5,12 +5,21 @@
         <el-row :gutter="40">
           <el-col :span="8">
             <el-form-item label="职位">
-              <el-input v-model="searchCondition.targetPosion" placeholder="请输入职位" clearable></el-input>
+              <el-input
+                v-model="searchCondition.targetPosion"
+                placeholder="请输入职位"
+                clearable
+              ></el-input>
             </el-form-item>
           </el-col>
           <el-col :span="8">
             <el-form-item label="性别">
-              <el-select v-model="searchCondition.gender" placeholder="请选择性别" clearable style="width:100% !important">
+              <el-select
+                v-model="searchCondition.gender"
+                placeholder="请选择性别"
+                clearable
+                style="width:100% !important"
+              >
                 <el-option label="男" value="男"></el-option>
                 <el-option label="女" value="女"></el-option>
               </el-select>
@@ -18,21 +27,40 @@
           </el-col>
           <el-col :span="8">
             <el-form-item label="年龄">
-              <el-input v-model="searchCondition.age" placeholder="请输入年龄" clearable></el-input>
+              <el-input
+                v-model="searchCondition.age"
+                placeholder="请输入年龄"
+                clearable
+              ></el-input>
             </el-form-item>
           </el-col>
         </el-row>
         <el-row :gutter="40">
           <el-col :span="16">
             <el-form-item label="人才库" style="font-size:30px !important">
-              <el-select v-model="searchCondition.status" filterable placeholder="请选择人才库" style="width:100% !important">
-                <el-option v-for="item in options" :key="item.value" :label="item.label" :value="item.value">
+              <el-select
+                v-model="searchCondition.status"
+                filterable
+                placeholder="请选择人才库"
+                style="width:100% !important"
+              >
+                <el-option
+                  v-for="item in options"
+                  :key="item.value"
+                  :label="item.label"
+                  :value="item.value"
+                >
                 </el-option>
               </el-select>
             </el-form-item>
           </el-col>
           <el-col :span="8">
-            <el-button type="primary" style="margin-left:80px;" @click="searchBtn">搜索</el-button>
+            <el-button
+              type="primary"
+              style="margin-left:80px;"
+              @click="searchBtn"
+              >搜索</el-button
+            >
           </el-col>
         </el-row>
       </el-form>
@@ -58,26 +86,44 @@
       <el-table-column label="阅读简历" align="center">
         <template slot-scope="scope">
           <el-tag @click="readResume(scope.row)">
-            <i class="iconfont icon-trues" style="font-size:20px;" v-if="scope.row.readResumeTime"></i>
-            <i class="iconfont icon-changyongicon-" style="font-size:20px;" v-else></i>
+            <i
+              class="iconfont icon-trues"
+              style="font-size:20px;"
+              v-if="scope.row.readResumeTime"
+            ></i>
+            <i
+              class="iconfont icon-changyongicon-"
+              style="font-size:20px;"
+              v-else
+            ></i>
           </el-tag>
-          <el-dialog center :visible.sync="dialogVisible" title="简历" :before-close="handleClose" class="resume_dialog">
+          <el-dialog
+            center
+            :visible.sync="dialogVisible"
+            title="简历"
+            :before-close="handleClose"
+            class="resume_dialog"
+          >
             <div slot="title" class="header-title">
               <el-row>
                 <el-col :span="6">
-                  <img src="../../../assets/head_portrait.png" alt="" />
+                  <img src="~@/assets/head_portrait.png" alt="" />
                 </el-col>
                 <el-col :span="18">
                   <el-row>
                     <el-col :span="12">
                       <p class="info_label">
-                        <span style="display:inline-block;text-align:right">姓名：</span>
+                        <span style="display:inline-block;text-align:right"
+                          >姓名：</span
+                        >
                         {{ resumeDetail.name }}
                       </p>
                     </el-col>
                     <el-col :span="12">
                       <p class="info_label">
-                        <span style="display:inline-block;text-align:right">籍贯：</span>
+                        <span style="display:inline-block;text-align:right"
+                          >籍贯：</span
+                        >
                         {{ resumeDetail.nativePlace }}
                       </p>
                     </el-col>
@@ -85,13 +131,17 @@
                   <el-row>
                     <el-col :span="12">
                       <p class="info_label">
-                        <span style="display:inline-block;text-align:right">学历：</span>
+                        <span style="display:inline-block;text-align:right"
+                          >学历：</span
+                        >
                         {{ resumeDetail.education }}
                       </p>
                     </el-col>
                     <el-col :span="12">
                       <p class="info_label">
-                        <span style="display:inline-block;text-align:right">居住地址：</span>
+                        <span style="display:inline-block;text-align:right"
+                          >居住地址：</span
+                        >
                         {{ resumeDetail.currentResidence }}
                       </p>
                     </el-col>
@@ -99,13 +149,19 @@
                   <el-row>
                     <el-col :span="12">
                       <p class="info_label">
-                        <span style="display:inline-block;text-align:right">出生年月：</span>
-                        {{ resumeDetail.birYear +"年" +resumeDetail.birMonth }}
+                        <span style="display:inline-block;text-align:right"
+                          >出生年月：</span
+                        >
+                        {{
+                          resumeDetail.birYear + '年' + resumeDetail.birMonth
+                        }}
                       </p>
                     </el-col>
                     <el-col :span="12">
                       <p class="info_label">
-                        <span style="display:inline-block;text-align:right">联系电话：</span>
+                        <span style="display:inline-block;text-align:right"
+                          >联系电话：</span
+                        >
                         {{ resumeDetail.telephone }}
                       </p>
                     </el-col>
@@ -113,7 +169,9 @@
                   <el-row>
                     <el-col :span="12">
                       <p class="info_label">
-                        <span style="display:inline-block;text-align:right">邮箱：</span>
+                        <span style="display:inline-block;text-align:right"
+                          >邮箱：</span
+                        >
                         {{ resumeDetail.email }}
                       </p>
                     </el-col>
@@ -126,19 +184,25 @@
               <el-col :span="24">
                 <el-row>
                   <el-col :span="24">
-                    <p style="font-size:16px;color:#0160FE;margin-left:-20px;">基本信息</p>
+                    <p style="font-size:16px;color:#0160FE;margin-left:-20px;">
+                      基本信息
+                    </p>
                   </el-col>
                 </el-row>
                 <el-row>
                   <el-col :span="12">
                     <p class="info_label">
-                      <span style="display:inline-block;text-align:right">年龄：</span>
+                      <span style="display:inline-block;text-align:right"
+                        >年龄：</span
+                      >
                       {{ resumeDetail.age }}
                     </p>
                   </el-col>
                   <el-col :span="12">
                     <p class="info_label">
-                      <span style="display:inline-block;text-align:right">身高：</span>
+                      <span style="display:inline-block;text-align:right"
+                        >身高：</span
+                      >
                       {{ resumeDetail.height }}
                     </p>
                   </el-col>
@@ -146,13 +210,17 @@
                 <el-row>
                   <el-col :span="12">
                     <p class="info_label">
-                      <span style="display:inline-block;text-align:right">婚姻状况：</span>
+                      <span style="display:inline-block;text-align:right"
+                        >婚姻状况：</span
+                      >
                       {{ resumeDetail.maritalStatus }}
                     </p>
                   </el-col>
                   <el-col :span="12">
                     <p class="info_label">
-                      <span style="display:inline-block;text-align:right">体重：</span>
+                      <span style="display:inline-block;text-align:right"
+                        >体重：</span
+                      >
                       {{ resumeDetail.weight }}
                     </p>
                   </el-col>
@@ -160,13 +228,17 @@
                 <el-row>
                   <el-col :span="12">
                     <p class="info_label">
-                      <span style="display:inline-block;text-align:right">健康状况：</span>
+                      <span style="display:inline-block;text-align:right"
+                        >健康状况：</span
+                      >
                       {{ resumeDetail.healthCondition }}
                     </p>
                   </el-col>
                   <el-col :span="12">
                     <p class="info_label">
-                      <span style="display:inline-block;text-align:right">民族：</span>
+                      <span style="display:inline-block;text-align:right"
+                        >民族：</span
+                      >
                       {{ resumeDetail.folk }}
                     </p>
                   </el-col>
@@ -174,7 +246,9 @@
                 <el-row>
                   <el-col :span="12">
                     <p class="info_label">
-                      <span style="display:inline-block;text-align:right">政治面貌：</span>
+                      <span style="display:inline-block;text-align:right"
+                        >政治面貌：</span
+                      >
                       {{ resumeDetail.name }}
                     </p>
                   </el-col>
@@ -186,19 +260,25 @@
               <el-col :span="24">
                 <el-row>
                   <el-col :span="24">
-                    <p style="font-size:16px;color:#0160FE;margin-left:-20px;">求职意向</p>
+                    <p style="font-size:16px;color:#0160FE;margin-left:-20px;">
+                      求职意向
+                    </p>
                   </el-col>
                 </el-row>
                 <el-row>
                   <el-col :span="12">
                     <p class="info_label">
-                      <span style="display:inline-block;text-align:right">求职状态：</span>
+                      <span style="display:inline-block;text-align:right"
+                        >求职状态：</span
+                      >
                       {{ resumeDetail.jobhuntingStatus }}
                     </p>
                   </el-col>
                   <el-col :span="12">
                     <p class="info_label">
-                      <span style="display:inline-block;text-align:right">目标职位：</span>
+                      <span style="display:inline-block;text-align:right"
+                        >目标职位：</span
+                      >
                       {{ resumeDetail.targetPosion }}
                     </p>
                   </el-col>
@@ -206,13 +286,17 @@
                 <el-row>
                   <el-col :span="12">
                     <p class="info_label">
-                      <span style="display:inline-block;text-align:right">目标工作地点：</span>
+                      <span style="display:inline-block;text-align:right"
+                        >目标工作地点：</span
+                      >
                       {{ resumeDetail.targetAddress }}
                     </p>
                   </el-col>
                   <el-col :span="12">
                     <p class="info_label">
-                      <span style="display:inline-block;text-align:right">工作类型：</span>
+                      <span style="display:inline-block;text-align:right"
+                        >工作类型：</span
+                      >
                       {{ resumeDetail.weight }}
                     </p>
                   </el-col>
@@ -220,13 +304,17 @@
                 <el-row>
                   <el-col :span="12">
                     <p class="info_label">
-                      <span style="display:inline-block;text-align:right">期望薪资：</span>
+                      <span style="display:inline-block;text-align:right"
+                        >期望薪资：</span
+                      >
                       {{ resumeDetail.expectedSalary }}
                     </p>
                   </el-col>
                   <el-col :span="12">
                     <p class="info_label">
-                      <span style="display:inline-block;text-align:right">到岗时间：</span>
+                      <span style="display:inline-block;text-align:right"
+                        >到岗时间：</span
+                      >
                       {{ resumeDetail.arrivalTime }}
                     </p>
                   </el-col>
@@ -234,7 +322,9 @@
                 <el-row>
                   <el-col :span="24">
                     <p class="info_label">
-                      <span style="display:inline-block;text-align:right">自我评价：</span>
+                      <span style="display:inline-block;text-align:right"
+                        >自我评价：</span
+                      >
                       {{ resumeDetail.selfAssessment }}
                     </p>
                   </el-col>
@@ -245,43 +335,33 @@
               <el-col :span="24">
                 <el-row>
                   <el-col :span="24">
-                    <p style="font-size:16px;color:#0160FE;margin-left:-20px;">工作经验</p>
-                  </el-col>
-                </el-row>
-                <el-row>
-                  <el-col :span="24" v-for="(item,index) in experience" :key="index">
-                    <p class="info_label">
-                      <span style="display:inline-block;text-align:right">{{item.dateFrom + '一'+item.dateTo }}</span>
-                      {{item.companyName}}
-                    </p>
-                    <p class="info_label">
-                      <span style="display:inline-block;text-align:right">{{item.position}}</span>
-                    </p>
-                    <p class="info_label">
-                      <span style="display:inline-block;text-align:right">工作内容：</span><br> {{item.workIntroduce}}
+                    <p style="font-size:16px;color:#0160FE;margin-left:-20px;">
+                      工作经验
                     </p>
                   </el-col>
                 </el-row>
-              </el-col>
-            </el-row>
-            <el-row>
-              <el-col :span="24">
                 <el-row>
-                  <el-col :span="24">
-                    <p style="font-size:16px;color:#0160FE;margin-left:-20px;">教育经历</p>
-                  </el-col>
-                </el-row>
-                <el-row>
-                  <el-col :span="24" v-for="(item,index) in education" :key="index">
+                  <el-col
+                    :span="24"
+                    v-for="(item, index) in experience"
+                    :key="index"
+                  >
                     <p class="info_label">
-                      <span style="display:inline-block;text-align:right">{{item.dateFrom + '一'+item.dateTo }}</span>
-                      {{item.institutionName}}
+                      <span style="display:inline-block;text-align:right">{{
+                        item.dateFrom + '一' + item.dateTo
+                      }}</span>
+                      {{ item.companyName }}
                     </p>
                     <p class="info_label">
-                      <span style="display:inline-block;text-align:right">学位学历：{{item.degree}}</span>
+                      <span style="display:inline-block;text-align:right">{{
+                        item.position
+                      }}</span>
                     </p>
                     <p class="info_label">
-                      <span style="display:inline-block;text-align:right">主修专业：{{item.major}}</span>
+                      <span style="display:inline-block;text-align:right"
+                        >工作内容：</span
+                      ><br />
+                      {{ item.workIntroduce }}
                     </p>
                   </el-col>
                 </el-row>
@@ -291,17 +371,62 @@
               <el-col :span="24">
                 <el-row>
                   <el-col :span="24">
-                    <p style="font-size:16px;color:#0160FE;margin-left:-20px;">培训经历</p>
+                    <p style="font-size:16px;color:#0160FE;margin-left:-20px;">
+                      教育经历
+                    </p>
                   </el-col>
                 </el-row>
                 <el-row>
-                  <el-col :span="24" v-for="(item,index) in train" :key="index">
+                  <el-col
+                    :span="24"
+                    v-for="(item, index) in education"
+                    :key="index"
+                  >
                     <p class="info_label">
-                      <span style="display:inline-block;text-align:right">{{item.dateFrom + '一'+item.dateTo }}</span>
-                      {{item.companyName}}
+                      <span style="display:inline-block;text-align:right">{{
+                        item.dateFrom + '一' + item.dateTo
+                      }}</span>
+                      {{ item.institutionName }}
                     </p>
                     <p class="info_label">
-                      <span style="display:inline-block;text-align:right">培训专业：{{item.major}}</span>
+                      <span style="display:inline-block;text-align:right"
+                        >学位学历：{{ item.degree }}</span
+                      >
+                    </p>
+                    <p class="info_label">
+                      <span style="display:inline-block;text-align:right"
+                        >主修专业：{{ item.major }}</span
+                      >
+                    </p>
+                  </el-col>
+                </el-row>
+              </el-col>
+            </el-row>
+            <el-row>
+              <el-col :span="24">
+                <el-row>
+                  <el-col :span="24">
+                    <p style="font-size:16px;color:#0160FE;margin-left:-20px;">
+                      培训经历
+                    </p>
+                  </el-col>
+                </el-row>
+                <el-row>
+                  <el-col
+                    :span="24"
+                    v-for="(item, index) in train"
+                    :key="index"
+                  >
+                    <p class="info_label">
+                      <span style="display:inline-block;text-align:right">{{
+                        item.dateFrom + '一' + item.dateTo
+                      }}</span>
+                      {{ item.companyName }}
+                    </p>
+                    <p class="info_label">
+                      <span style="display:inline-block;text-align:right"
+                        >培训专业：{{ item.major }}</span
+                      >
                     </p>
                     <!-- <p class="info_label">
                       <span style="display:inline-block;text-align:right">主修专业：{{item.major}}</span>
@@ -333,43 +458,94 @@
       <el-table-column prop="join" label="参加面试">
         <template slot-scope="{ row }">
           <div v-if="!row.attendinterviewTime" @click.once="joinInterview(row)">
-            <el-checkbox v-model="row.attendinterviewTime" name="type" class="el_checkbox" :disabled="row.attendinterviewTime"></el-checkbox>
+            <el-checkbox
+              v-model="row.attendinterviewTime"
+              name="type"
+              class="el_checkbox"
+              :disabled="row.attendinterviewTime"
+            ></el-checkbox>
           </div>
           <div v-else>
-            <el-checkbox v-model="row.attendinterviewTime" name="type" class="el_checkbox" :disabled="row.attendinterviewTime"></el-checkbox>
+            <el-checkbox
+              v-model="row.attendinterviewTime"
+              name="type"
+              class="el_checkbox"
+              :disabled="row.attendinterviewTime"
+            ></el-checkbox>
           </div>
         </template>
       </el-table-column>
       <el-table-column prop="result" label="面试结果">
         <template slot-scope="scope">
           <div @click="interviewRes(scope.row)" class="payShow">
-            <el-button v-if="scope.row.interviewResult == 1" type="success" size="small">已通过</el-button>
-            <el-button v-else-if="scope.row.interviewResult == 0" type="danger" size="small">未通过</el-button>
+            <el-button
+              v-if="scope.row.interviewResult == 1"
+              type="success"
+              size="small"
+              >已通过</el-button
+            >
+            <el-button
+              v-else-if="scope.row.interviewResult == 0"
+              type="danger"
+              size="small"
+              >未通过</el-button
+            >
             <el-button v-else size="small">未面试</el-button>
           </div>
         </template>
       </el-table-column>
       <el-table-column prop="sendOffer" label="发录取通知书">
         <template slot-scope="scope">
-          <el-button type="primary" v-if="!scope.row.issueofferTime" @click="sendInterview(scope.row)" size="small">发送</el-button>
-          <el-button type="danger" v-if="scope.row.issueofferTime" size="small">已发送</el-button>
-          <el-dialog title="入职邀请" :visible.sync="centerDialogVisible" width="500px">
+          <el-button
+            type="primary"
+            v-if="!scope.row.issueofferTime"
+            @click="sendInterview(scope.row)"
+            size="small"
+            >发送</el-button
+          >
+          <el-button type="danger" v-if="scope.row.issueofferTime" size="small"
+            >已发送</el-button
+          >
+          <el-dialog
+            title="入职邀请"
+            :visible.sync="centerDialogVisible"
+            width="500px"
+          >
             <el-form ref="form" :model="form1" label-width="80px">
               <el-form-item label="入职时间">
-                <el-date-picker v-model="form1.entryTime" type="datetime" placeholder="选择日期时间">
+                <el-date-picker
+                  v-model="form1.entryTime"
+                  type="datetime"
+                  placeholder="选择日期时间"
+                >
                 </el-date-picker>
               </el-form-item>
               <el-form-item label="入职地点">
-                <el-input type="textarea" v-model="form1.entryAddress" placeholder="请输入面试地点"></el-input>
+                <el-input
+                  type="textarea"
+                  v-model="form1.entryAddress"
+                  placeholder="请输入面试地点"
+                ></el-input>
               </el-form-item>
               <el-form-item label="联系方式">
-                <el-input v-model="form1.entryContact" placeholder="请输入联系人与联系电话"></el-input>
+                <el-input
+                  v-model="form1.entryContact"
+                  placeholder="请输入联系人与联系电话"
+                ></el-input>
               </el-form-item>
               <el-form-item label="交通线路">
-                <el-input type="textarea" v-model="form1.entryTrafficroute" placeholder="请输入交通路线"></el-input>
+                <el-input
+                  type="textarea"
+                  v-model="form1.entryTrafficroute"
+                  placeholder="请输入交通路线"
+                ></el-input>
               </el-form-item>
               <el-form-item label="携带资料">
-                <el-input type="textarea" v-model="form1.entryMaterial" placeholder="请输入需携带资料"></el-input>
+                <el-input
+                  type="textarea"
+                  v-model="form1.entryMaterial"
+                  placeholder="请输入需携带资料"
+                ></el-input>
               </el-form-item>
               <el-form-item>
                 <el-button type="primary" @click="makeSure()">确定</el-button>
@@ -382,38 +558,75 @@
       <el-table-column prop="entry" label="入职">
         <template slot-scope="{ row }">
           <div @click.once="entry(row)">
-            <el-checkbox v-model="row.entrydutyTime" name="type" class="el_checkbox" :disabled="row.entrydutyTime"></el-checkbox>
+            <el-checkbox
+              v-model="row.entrydutyTime"
+              name="type"
+              class="el_checkbox"
+              :disabled="row.entrydutyTime"
+            ></el-checkbox>
           </div>
         </template>
       </el-table-column>
       <el-table-column prop="leaveOffice" label="离职">
         <template slot-scope="{ row }">
           <div @click.once="leaveOffice(row)">
-            <el-checkbox v-model="row.quitdutyTime" name="type" class="el_checkbox" :disabled="row.quitdutyTime"></el-checkbox>
+            <el-checkbox
+              v-model="row.quitdutyTime"
+              name="type"
+              class="el_checkbox"
+              :disabled="row.quitdutyTime"
+            ></el-checkbox>
           </div>
         </template>
       </el-table-column>
     </el-table>
-    <el-dialog title="面试邀请" :visible.sync="dialog2Visible" width="500px" :before-close="handle2Close">
+    <el-dialog
+      title="面试邀请"
+      :visible.sync="dialog2Visible"
+      width="500px"
+      :before-close="handle2Close"
+    >
       <el-form ref="form" :model="form" label-width="80px">
         <el-form-item label="面试官">
-          <el-input v-model="form.interviewerName" placeholder="请输入面试官姓名"></el-input>
+          <el-input
+            v-model="form.interviewerName"
+            placeholder="请输入面试官姓名"
+          ></el-input>
         </el-form-item>
         <el-form-item label="面试时间">
-          <el-date-picker v-model="form.interviewTime" type="datetime" placeholder="选择日期时间">
+          <el-date-picker
+            v-model="form.interviewTime"
+            type="datetime"
+            placeholder="选择日期时间"
+          >
           </el-date-picker>
         </el-form-item>
         <el-form-item label="面试地点">
-          <el-input type="textarea" v-model="form.interviewAddress" placeholder="请输入面试地点"></el-input>
+          <el-input
+            type="textarea"
+            v-model="form.interviewAddress"
+            placeholder="请输入面试地点"
+          ></el-input>
         </el-form-item>
         <el-form-item label="联系方式">
-          <el-input v-model="form.interviewContact" placeholder="请输入联系人与联系电话"></el-input>
+          <el-input
+            v-model="form.interviewContact"
+            placeholder="请输入联系人与联系电话"
+          ></el-input>
         </el-form-item>
         <el-form-item label="交通线路">
-          <el-input type="textarea" v-model="form.interviewTrafficroute" placeholder="请输入交通路线"></el-input>
+          <el-input
+            type="textarea"
+            v-model="form.interviewTrafficroute"
+            placeholder="请输入交通路线"
+          ></el-input>
         </el-form-item>
         <el-form-item label="携带资料">
-          <el-input type="textarea" v-model="form.interviewMaterial" placeholder="请输入需携带资料"></el-input>
+          <el-input
+            type="textarea"
+            v-model="form.interviewMaterial"
+            placeholder="请输入需携带资料"
+          ></el-input>
         </el-form-item>
         <el-form-item>
           <el-button type="primary" @click="invite">立即邀约</el-button>
@@ -422,14 +635,22 @@
       </el-form>
     </el-dialog>
     <div class="block" style="margin:30px;" v-if="total > 0">
-      <el-pagination @size-change="handleSizeChange" @current-change="handleCurrentChange" :current-page="data.pageNum" :page-sizes="[5, 10, 15, 20]" :page-size="data.pageSize" layout="total, sizes, prev, pager, next, jumper" :total="total">
+      <el-pagination
+        @size-change="handleSizeChange"
+        @current-change="handleCurrentChange"
+        :current-page="data.pageNum"
+        :page-sizes="[5, 10, 15, 20]"
+        :page-size="data.pageSize"
+        layout="total, sizes, prev, pager, next, jumper"
+        :total="total"
+      >
       </el-pagination>
     </div>
   </div>
 </template>
 
 <script>
-import { formatDate } from '../../../common/common.js'
+import { formatDate } from '@/common/common.js'
 
 import {
   getResumer,
@@ -441,11 +662,11 @@ import {
   sendOffer,
   entryOffice,
   leave,
-  read1,
-} from '@/api/job'
-import { constants } from 'fs';
+  read1
+} from '@/network/job'
+import { constants } from 'fs'
 export default {
-  data () {
+  data() {
     return {
       table: `<el-row>
               <el-col :span="12">
@@ -532,78 +753,74 @@ export default {
       // 简历来源，求职者主动投递为1，机构主动搜索为2
       type: '1',
       // 工作经验
-      experience: {
-
-      },
+      experience: {},
       // 教育经历
-      education: {
-
-      },
+      education: {},
       // 培训经历
-      train: {
-
-      }
+      train: {}
     }
   },
-  mounted () {
+  mounted() {
     this.getResume()
     // this.getEducation()
   },
   methods: {
     // -----------------------获取工作经验-----------------------
-    getExperience (row) {
+    getExperience(row) {
       // console.log(row)
       this.$instance1({
-        method: "get",
-        url: "/resumeWork/queryResumes",
+        method: 'get',
+        url: '/resumeWork/queryResumes',
         params: {
           accountid: row.accountid,
-          adminQuery: "-1"
+          adminQuery: '-1'
         }
-      }).then((res) => {
+      }).then(res => {
         console.log(res)
         this.experience = res.data.data.list
         console.log('experience1', this.experience)
       })
     },
     // -------------------------获取教育经历------------------------
-    getEducation (row) {
+    getEducation(row) {
       // console.log('res1')
       console.log('row', row)
       this.$instance1({
-        method: "get",
-        url: "/resumeEducation/queryResumes",
+        method: 'get',
+        url: '/resumeEducation/queryResumes',
         params: {
           accountid: row.accountid,
-          adminQuery: "-1"
+          adminQuery: '-1'
         }
-      }).then((res) => {
-        this.education = res.data.data.list
-        console.log('education', this.education)
-      }).catch((err) => {
-        console.log(err)
       })
-
+        .then(res => {
+          this.education = res.data.data.list
+          console.log('education', this.education)
+        })
+        .catch(err => {
+          console.log(err)
+        })
     },
     //-------------------------- 获取培训经历----------------------------
-    getTrain (row) {
+    getTrain(row) {
       this.$instance1({
-        method: "get",
-        url: "/resumeTrain/queryResumes",
+        method: 'get',
+        url: '/resumeTrain/queryResumes',
         params: {
           accountid: row.accountid,
-          adminQuery: "-1"
+          adminQuery: '-1'
         }
-      }).then((res) => {
-        console.log(res)
-        this.train = res.data.data.list
-      }).catch((err) => {
-        console.log(err)
       })
-
+        .then(res => {
+          console.log(res)
+          this.train = res.data.data.list
+        })
+        .catch(err => {
+          console.log(err)
+        })
     },
     // --------------------------获取简历数据----------------------------
-    getResume () {
+    getResume() {
       this.type = '1'
       this.data.targetPosion = this.searchCondition.targetPosion
       this.data.gender = this.searchCondition.gender
@@ -666,7 +883,7 @@ export default {
         })
     },
     // ------------------------------点击搜索按钮获取高级人才---------------------
-    searchBtn () {
+    searchBtn() {
       if (
         this.searchCondition.status == 0 ||
         this.searchCondition.status == 1
@@ -735,7 +952,7 @@ export default {
       }
     },
     // ------------------------------阅读简历------------------------
-    readResume (row) {
+    readResume(row) {
       console.log('row')
       if (row.readResumeTime) {
         this.getEducation(row)
@@ -788,7 +1005,6 @@ export default {
         //     })
         // }
 
-
         read({
           sendresumeid: row.id,
           readresumeTime: date,
@@ -807,7 +1023,7 @@ export default {
       }
     },
     // --------------------------------面试邀请-------------------------
-    handleInvite (row) {
+    handleInvite(row) {
       // if (!row.readResumeTime) {
       //   this.$alert('请先阅读该条简历', '温馨提示', {
       //     confirmButtonText: '确定'
@@ -820,7 +1036,7 @@ export default {
       this.form.email = row.email
       // }
     },
-    invite () {
+    invite() {
       console.log(11111111111111)
       this.dialog2Visible = false
       Invited(this.form)
@@ -848,7 +1064,7 @@ export default {
     },
     // -----------------------------跟踪简历进度-----------------------------
     // 参加面试
-    joinInterview (row) {
+    joinInterview(row) {
       // if (row.sendTime) {
       let date = formatDate('yyyy-MM-dd hh:mm:ss')
       console.log('date', date)
@@ -880,7 +1096,7 @@ export default {
       // }
     },
     // ------------------------------面试结果-----------------------------
-    interviewRes (row) {
+    interviewRes(row) {
       // if (row.attendinterviewTime) {
       let res = row.interviewResult
       if (res == 0) {
@@ -916,7 +1132,7 @@ export default {
       // }
     },
     //点击发送按钮
-    sendInterview (row) {
+    sendInterview(row) {
       if (row.interviewResult == 1) {
         this.centerDialogVisible = true
         this.form1.sendresumeid = row.id
@@ -928,7 +1144,7 @@ export default {
         })
       }
     },
-    makeSure () {
+    makeSure() {
       this.centerDialogVisible = false
       let formData = new FormData()
       formData.append('sendresumeid', this.form1.sendresumeid)
@@ -956,7 +1172,7 @@ export default {
         })
     },
     // ----------------------------入职----------------------
-    entry (row) {
+    entry(row) {
       // if (row.entrydutyTime) {
       let date = formatDate('yyyy-MM-dd hh:mm:ss')
       console.log('date', date)
@@ -990,7 +1206,7 @@ export default {
       // }
     },
     // -------------------------------离职----------------------
-    leaveOffice (row) {
+    leaveOffice(row) {
       // if (row.quitdutyTime) {
       let date = formatDate('yyyy-MM-dd hh:mm:ss')
       console.log('date', date)
@@ -1022,18 +1238,18 @@ export default {
       // }
     },
     // -----------------------关闭对话框------------------------
-    handleClose (done) {
+    handleClose(done) {
       done()
     },
-    handle2Close (done) {
+    handle2Close(done) {
       done()
     },
     // --------------------------分页----------------------------
-    handleSizeChange (val) {
+    handleSizeChange(val) {
       this.data.pageSize = val
       this.getResume()
     },
-    handleCurrentChange (val) {
+    handleCurrentChange(val) {
       this.data.pageNum = val
       this.getResume()
     }
