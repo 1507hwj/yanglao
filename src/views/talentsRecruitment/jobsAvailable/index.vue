@@ -150,7 +150,7 @@
 import { getName } from '@/utils/auth'
 
 
-import { getIssued, rackingPosition, editAddedPosition, deleteAddedPosition, getUnpublished } from '@/network/job'
+import { getIssued, rackingPosition, editAddedPosition, deleteAddedPosition, getUnpublished } from '@/api/job'
 import axios from "axios"
 export default {
   data () {
