@@ -1,40 +1,17 @@
 <template>
   <div class="app-container">
     <el-row style="padding:20px">
-      <el-button
-        type="primary"
-        plain
-        icon="el-icon-plus"
-        @click="dialogVisible = true"
-        >新增职位</el-button
-      >
-      <el-dialog
-        top="3vh"
-        :visible.sync="dialogVisible"
-        width="600px"
-        :before-close="handleClose"
-      >
-        <el-form
-          ref="form"
-          :model="form"
-          label-width="80px"
-          label-position="right"
-          class="add_post"
-        >
+      <el-button type="primary" plain icon="el-icon-plus" @click="dialogVisible = true">新增职位</el-button>
+      <el-dialog top="3vh" :visible.sync="dialogVisible" width="600px" :before-close="handleClose">
+        <el-form ref="form" :model="form" label-width="80px" label-position="right" class="add_post">
           <el-form-item label="职位名称" prop="positionName">
             <el-input v-model="form.positionName" style="width:80%"></el-input>
           </el-form-item>
           <el-form-item label="职位职能" prop="positionResponsibility">
-            <el-input
-              v-model="form.positionResponsibility"
-              style="width:80%"
-            ></el-input>
+            <el-input v-model="form.positionResponsibility" style="width:80%"></el-input>
           </el-form-item>
           <el-form-item label="年龄要求" prop="positonRequirementAge">
-            <el-select
-              v-model="form.positonRequirementAge"
-              placeholder="请选择"
-            >
+            <el-select v-model="form.positonRequirementAge" placeholder="请选择">
               <el-option label="18-22" value="18-22"></el-option>
               <el-option label="18-25" value="18-25"></el-option>
               <el-option label="22-35" value="22-35"></el-option>
@@ -50,10 +27,7 @@
             </el-radio-group>
           </el-form-item>
           <el-form-item label="经验要求" prop="positonRequirementExperience">
-            <el-select
-              v-model="form.positonRequirementExperience"
-              placeholder="请选择"
-            >
+            <el-select v-model="form.positonRequirementExperience" placeholder="请选择">
               <el-option label="无" value="无"></el-option>
               <el-option label="2年以上" value="2年以上"></el-option>
               <el-option label="3-5年" value="3-5年"></el-option>
@@ -61,10 +35,7 @@
             </el-select>
           </el-form-item>
           <el-form-item label="学历要求" prop="positonRequirementEducation">
-            <el-select
-              v-model="form.positonRequirementEducation"
-              placeholder="请选择"
-            >
+            <el-select v-model="form.positonRequirementEducation" placeholder="请选择">
               <el-option label="专科以上" value="专科以上"></el-option>
               <el-option label="本科以上" value="本科以上"></el-option>
               <el-option label="研究生以上" value="研究生以上"></el-option>
@@ -85,93 +56,36 @@
     </el-row>
     <!-- 模拟数据 -->
     <el-table :data="list" border fit>
-      <el-table-column
-        prop="positionName"
-        label="职位名称"
-        width="260"
-        align="center"
-      ></el-table-column>
-      <el-table-column
-        prop="positionResponsibility"
-        label="职位职责"
-        align="center"
-      ></el-table-column>
+      <el-table-column prop="positionName" label="职位名称" width="260" align="center"></el-table-column>
+      <el-table-column prop="positionResponsibility" label="职位职责" align="center"></el-table-column>
       <el-table-column label="岗位要求" align="center">
-        <el-table-column
-          prop="positonRequirementAge"
-          label="年龄要求"
-          align="center"
-        ></el-table-column>
-        <el-table-column
-          prop="positonRequirementSex"
-          label="性别要求"
-          align="center"
-        ></el-table-column>
-        <el-table-column
-          prop="positonRequirementExperience"
-          label="经验要求"
-          align="center"
-        ></el-table-column>
-        <el-table-column
-          prop="positonRequirementEducation"
-          label="学历要求"
-          align="center"
-        ></el-table-column>
+        <el-table-column prop="positonRequirementAge" label="年龄要求" align="center"></el-table-column>
+        <el-table-column prop="positonRequirementSex" label="性别要求" align="center"></el-table-column>
+        <el-table-column prop="positonRequirementExperience" label="经验要求" align="center"></el-table-column>
+        <el-table-column prop="positonRequirementEducation" label="学历要求" align="center"></el-table-column>
       </el-table-column>
-      <el-table-column
-        prop="createPositionTime"
-        label="添加时间"
-        align="center"
-      ></el-table-column>
-      <el-table-column
-        prop="contactPhone"
-        label="联系电话"
-        align="center"
-      ></el-table-column>
+      <el-table-column prop="createPositionTime" label="添加时间" align="center"></el-table-column>
+      <el-table-column prop="contactPhone" label="联系电话" align="center"></el-table-column>
       <el-table-column prop="positionTag" label="职位标签" align="center">
         <template slot-scope="scope">
-          <el-tag type="success" disable-transitions>{{
-            scope.row.positionTag
-          }}</el-tag>
+          <el-tag type="success" disable-transitions>{{ scope.row.positionTag }}
+          </el-tag>
         </template>
       </el-table-column>
 
       <el-table-column align="center" label="操作" width="200">
         <template slot-scope="scope">
-          <el-button size="mini" type="primary" @click="edit(scope.row)"
-            >编辑</el-button
-          >
-          <el-dialog
-            title="编辑"
-            top="8vh"
-            :visible.sync="dialog2Visible"
-            width="600px"
-            :before-close="handle2Close"
-            :modal-append-to-body="false"
-          >
-            <el-form
-              ref="form2"
-              :model="form2"
-              label-width="80px"
-              label-position="left"
-            >
+          <el-button size="mini" type="primary" @click="edit(scope.row)">编辑</el-button>
+          <el-dialog title="编辑" top="8vh" :visible.sync="dialog2Visible" width="600px" :before-close="handle2Close" :modal-append-to-body="false">
+            <el-form ref="form2" :model="form2" label-width="80px" label-position="left">
               <el-form-item label="职位名称" prop="positionName">
-                <el-input
-                  v-model="form2.positionName"
-                  style="width:80%"
-                ></el-input>
+                <el-input v-model="form2.positionName" style="width:80%"></el-input>
               </el-form-item>
               <el-form-item label="职位职能" prop="positionResponsibility">
-                <el-input
-                  v-model="form2.positionResponsibility"
-                  style="width:80%"
-                ></el-input>
+                <el-input v-model="form2.positionResponsibility" style="width:80%"></el-input>
               </el-form-item>
               <el-form-item label="年龄要求" prop="positonRequirementAge">
-                <el-select
-                  v-model="form2.positonRequirementAge"
-                  placeholder="请选择"
-                >
+                <el-select v-model="form2.positonRequirementAge" placeholder="请选择">
                   <el-option label="18-22" value="18-22"></el-option>
                   <el-option label="18-25" value="18-25"></el-option>
                   <el-option label="22-35" value="22-35"></el-option>
@@ -186,14 +100,8 @@
                   <el-radio label="无"></el-radio>
                 </el-radio-group>
               </el-form-item>
-              <el-form-item
-                label="经验要求"
-                prop="positonRequirementExperience"
-              >
-                <el-select
-                  v-model="form2.positonRequirementExperience"
-                  placeholder="请选择"
-                >
+              <el-form-item label="经验要求" prop="positonRequirementExperience">
+                <el-select v-model="form2.positonRequirementExperience" placeholder="请选择">
                   <el-option label="无" value="无"></el-option>
                   <el-option label="2年以上" value="2年以上"></el-option>
                   <el-option label="3-5年" value="3-5年"></el-option>
@@ -201,10 +109,7 @@
                 </el-select>
               </el-form-item>
               <el-form-item label="学历要求" prop="positonRequirementEducation">
-                <el-select
-                  v-model="form2.positonRequirementEducation"
-                  placeholder="请选择"
-                >
+                <el-select v-model="form2.positonRequirementEducation" placeholder="请选择">
                   <el-option label="专科以上" value="专科以上"></el-option>
                   <el-option label="本科以上" value="本科以上"></el-option>
                   <el-option label="研究生以上" value="研究生以上"></el-option>
@@ -212,24 +117,14 @@
                 </el-select>
               </el-form-item>
               <el-form-item label="联系电话" prop="contactPhone">
-                <el-input
-                  v-model="form2.contactPhone"
-                  style="width:80%"
-                ></el-input>
+                <el-input v-model="form2.contactPhone" style="width:80%"></el-input>
               </el-form-item>
               <el-form-item label="职位标签" prop="positionTag">
-                <el-input
-                  v-model="form2.positionTag"
-                  style="width:80%"
-                ></el-input>
+                <el-input v-model="form2.positionTag" style="width:80%"></el-input>
               </el-form-item>
             </el-form>
             <div>
-              <span
-                slot="footer"
-                class="dialog-footer"
-                style="margin-right:30px"
-              >
+              <span slot="footer" class="dialog-footer" style="margin-right:30px">
                 <el-button @click="isCancel()">取消</el-button>
               </span>
               <span slot="footer" class="dialog-footer">
@@ -237,13 +132,7 @@
               </span>
             </div>
           </el-dialog>
-          <el-button
-            size="mini"
-            type="danger"
-            @click="handleDelete(scope.$index, scope.row)"
-            style="margin-left: 10px"
-            >删除</el-button
-          >
+          <el-button size="mini" type="danger" @click="handleDelete(scope.$index, scope.row)" style="margin-left: 10px">删除</el-button>
         </template>
       </el-table-column>
     </el-table>
@@ -256,29 +145,29 @@ import {
   postPosition,
   editPosition,
   deletePosition
-} from '@/network/job'
+} from '@/api/job'
 export default {
-  data() {
+  data () {
     return {
       list: [],
       dialogVisible: false,
       dialog2Visible: false,
       form: {
-        
+
       },
       form2: {
-    
+
       },
       dialogImageUrl: '',
       positionid: ''
     }
   },
-  created() {
+  created () {
     this.getList()
   },
   methods: {
     // -------------------------------获取---------------------------------
-    getList() {
+    getList () {
       getPosition()
         .then(res => {
           console.log(res)
@@ -290,11 +179,11 @@ export default {
         })
     },
     // 表单重置
-    resetForm(formName) {
+    resetForm (formName) {
       this.$refs[formName].resetFields()
     },
     // ------------------------------------增加-------------------------------------
-    addItem() {
+    addItem () {
       this.$refs['form'].validate(valid => {
         if (valid) {
           let formData = new FormData()
@@ -348,7 +237,7 @@ export default {
       })
     },
     // --------------------------------------删除---------------------------------
-    handleDelete(index, row) {
+    handleDelete (index, row) {
       this.$confirm(
         '是否确定要删除' + row.positionName + ', 是否继续?',
         '提示',
@@ -376,7 +265,7 @@ export default {
     },
     // --------------------------------编辑----------------------------
     // 点击编辑按钮
-    edit(row) {
+    edit (row) {
       this.dialog2Visible = true
       this.form2 = {
         ...row
@@ -385,18 +274,8 @@ export default {
       this.positionid = row.positionid
     },
     // 确定编辑
-    handleEdit() {
+    handleEdit () {
       this.dialog2Visible = false
-      // let formData = new FormData()
-      // formData.append('positionName', this.form2.positionName)
-      // formData.append('positionResponsibility', this.form2.positionResponsibility)
-      // formData.append('positonRequirements', this.form2.positonRequirements)
-      // formData.append('positonRequirementExperience', this.form2.positonRequirementExperience)
-      // formData.append('positonRequirementEducation', this.form2.positonRequirementEducation)
-      // formData.append('positonRequirementAge', this.form2.positonRequirementAge)
-      // formData.append('positonRequirementSex', this.form2.positonRequirementSex)
-      // formData.append('contactPhone', this.form2.contactPhone)
-      // formData.append('positionTag', this.form2.positionTag)
 
       editPosition(this.form2)
         .then(res => {
@@ -411,13 +290,13 @@ export default {
           console.log(err)
         })
     },
-    handleClose(done) {
+    handleClose (done) {
       done()
     },
-    handle2Close(done) {
+    handle2Close (done) {
       done()
     },
-    isCancel() {
+    isCancel () {
       this.dialog2Visible = false
     }
   }

@@ -170,185 +170,185 @@ export default {
       checkDataTotal: 0
     }
   },
-  methods: {
-    // --------------------------------未通过已通过tabs切换-------------------------------------
-    handleClick (tab, event) {
-      if (tab.label == '未通过') {
-        this.getOutData('未通过', this.pageNum, this.pageSize)
-        console.log(this.outData)
-      } else if (tab.label == '已通过') {
-        this.getPassData('已通过', this.pageNum, this.pageSize)
-        console.log(this.passData)
-      } else if (tab.label == '正在审核') {
-        this.getCheckData('正在审核', this.pageNum, this.pageSize)
-        console.log(this.checkData)
-      }
-    },
-    // -----------------------------------正在审核、未通过、已通过获取数据-------------------------
-    getCheckData (state, pageNum, pageSize) {
-      this.$instance1({
-        method: 'get',
-        url: '/docomment/queryDoComment',
-        params: {
-          auditState: state,
-          pageNum: pageNum,
-          pageSize: pageSize
-        }
-      }).then(res => {
-        this.checkData = res.data.list
-        this.checkDataTotal = res.data.total
-      })
-    },
-    getOutData (state, pageNum, pageSize) {
-      this.$instance1({
-        method: 'get',
-        url: '/docomment/queryDoComment',
-        params: {
-          auditState: state,
-          pageNum: pageNum,
-          pageSize: pageSize
-        }
-      }).then(res => {
-        this.outData = res.data.list
-        this.outDataTotal = res.data.total
-      })
-    },
-    getPassData (state, pageNum, pageSize) {
-      this.$instance1({
-        method: 'get',
-        url: '/docomment/queryDoComment',
-        params: {
-          auditState: state,
-          pageNum: pageNum,
-          pageSize: pageSize
-        }
-      }).then(res => {
-        console.log(res)
-        this.passData = res.data.list
-        this.passDataTotal = res.data.total
-      })
-    },
-    // ---------------------------------获取数据-------------------------------------------
-    getDataList (pageNum, pageSize) {
-      this.$instance1({
-        method: 'get',
-        url: '/docomment/queryDoComment',
-        params: {
-          pageNum: pageNum,
-          pageSize: pageSize
-        }
-      })
-        .then(res => {
-          console.log(res)
+  // methods: {
+  //   // --------------------------------未通过已通过tabs切换-------------------------------------
+  //   handleClick (tab, event) {
+  //     if (tab.label == '未通过') {
+  //       this.getOutData('未通过', this.pageNum, this.pageSize)
+  //       console.log(this.outData)
+  //     } else if (tab.label == '已通过') {
+  //       this.getPassData('已通过', this.pageNum, this.pageSize)
+  //       console.log(this.passData)
+  //     } else if (tab.label == '正在审核') {
+  //       this.getCheckData('正在审核', this.pageNum, this.pageSize)
+  //       console.log(this.checkData)
+  //     }
+  //   },
+  //   // -----------------------------------正在审核、未通过、已通过获取数据-------------------------
+  //   getCheckData (state, pageNum, pageSize) {
+  //     this.$instance1({
+  //       method: 'get',
+  //       url: '/docomment/queryDoComment',
+  //       params: {
+  //         auditState: state,
+  //         pageNum: pageNum,
+  //         pageSize: pageSize
+  //       }
+  //     }).then(res => {
+  //       this.checkData = res.data.list
+  //       this.checkDataTotal = res.data.total
+  //     })
+  //   },
+  //   getOutData (state, pageNum, pageSize) {
+  //     this.$instance1({
+  //       method: 'get',
+  //       url: '/docomment/queryDoComment',
+  //       params: {
+  //         auditState: state,
+  //         pageNum: pageNum,
+  //         pageSize: pageSize
+  //       }
+  //     }).then(res => {
+  //       this.outData = res.data.list
+  //       this.outDataTotal = res.data.total
+  //     })
+  //   },
+  //   getPassData (state, pageNum, pageSize) {
+  //     this.$instance1({
+  //       method: 'get',
+  //       url: '/docomment/queryDoComment',
+  //       params: {
+  //         auditState: state,
+  //         pageNum: pageNum,
+  //         pageSize: pageSize
+  //       }
+  //     }).then(res => {
+  //       console.log(res)
+  //       this.passData = res.data.list
+  //       this.passDataTotal = res.data.total
+  //     })
+  //   },
+  //   // ---------------------------------获取数据-------------------------------------------
+  //   getDataList (pageNum, pageSize) {
+  //     this.$instance1({
+  //       method: 'get',
+  //       url: '/docomment/queryDoComment',
+  //       params: {
+  //         pageNum: pageNum,
+  //         pageSize: pageSize
+  //       }
+  //     })
+  //       .then(res => {
+  //         console.log(res)
 
-          this.tableData = res.data.list
-          // console.log(res.data.list)
-          this.total = res.data.total
-          // console.log(this.tableData)
-        })
-        .catch(err => {
-          console.log(err)
-        })
+  //         this.tableData = res.data.list
+  //         // console.log(res.data.list)
+  //         this.total = res.data.total
+  //         // console.log(this.tableData)
+  //       })
+  //       .catch(err => {
+  //         console.log(err)
+  //       })
 
-      // return this.tableData
-    },
-    // ------------------------------修改状态------------------------------------------
-    changeState (index, row) {
-      this.getDataList(this.pageNum, this.pageSize)
-      console.log(index, row)
-      if (row.auditState == '正在审核') {
-        this.$instance1({
-          method: 'put',
-          url: '/docomment/modifyDoComment',
-          params: {
-            ...row,
-            auditState: '未通过'
-          }
-        })
-          .then(res => {
-            console.log(res)
-            if (res.data.code == 1) {
-              this.getDataList(this.pageNum, this.pageSize)
-            }
-          })
-          .catch(err => {
-            console.log(err)
-          })
-      } else if (row.auditState == '未通过') {
-        console.log(this.state)
-        this.$instance1({
-          method: 'put',
-          url: '/docomment/modifyDoComment',
-          params: {
-            ...row,
-            auditState: '已通过'
-          }
-        })
-          .then(res => {
-            console.log(res)
-            if (res.data.code == 1) {
-              this.getDataList(this.pageNum, this.pageSize)
-            }
-          })
-          .catch(err => {
-            console.log(err)
-          })
-      } else if (row.auditState == '已通过') {
-        console.log(this.state)
-        this.$instance1({
-          method: 'put',
-          url: '/docomment/modifyDoComment',
-          params: {
-            ...row,
-            auditState: '正在审核'
-          }
-        })
-          .then(res => {
-            console.log(res)
-            if (res.data.code == 1) {
-              this.getDataList(this.pageNum, this.pageSize)
-            }
-          })
-          .catch(err => {
-            console.log(err)
-          })
-      }
-    },
+  //     // return this.tableData
+  //   },
+  //   // ------------------------------修改状态------------------------------------------
+  //   changeState (index, row) {
+  //     this.getDataList(this.pageNum, this.pageSize)
+  //     console.log(index, row)
+  //     if (row.auditState == '正在审核') {
+  //       this.$instance1({
+  //         method: 'put',
+  //         url: '/docomment/modifyDoComment',
+  //         params: {
+  //           ...row,
+  //           auditState: '未通过'
+  //         }
+  //       })
+  //         .then(res => {
+  //           console.log(res)
+  //           if (res.data.code == 1) {
+  //             this.getDataList(this.pageNum, this.pageSize)
+  //           }
+  //         })
+  //         .catch(err => {
+  //           console.log(err)
+  //         })
+  //     } else if (row.auditState == '未通过') {
+  //       console.log(this.state)
+  //       this.$instance1({
+  //         method: 'put',
+  //         url: '/docomment/modifyDoComment',
+  //         params: {
+  //           ...row,
+  //           auditState: '已通过'
+  //         }
+  //       })
+  //         .then(res => {
+  //           console.log(res)
+  //           if (res.data.code == 1) {
+  //             this.getDataList(this.pageNum, this.pageSize)
+  //           }
+  //         })
+  //         .catch(err => {
+  //           console.log(err)
+  //         })
+  //     } else if (row.auditState == '已通过') {
+  //       console.log(this.state)
+  //       this.$instance1({
+  //         method: 'put',
+  //         url: '/docomment/modifyDoComment',
+  //         params: {
+  //           ...row,
+  //           auditState: '正在审核'
+  //         }
+  //       })
+  //         .then(res => {
+  //           console.log(res)
+  //           if (res.data.code == 1) {
+  //             this.getDataList(this.pageNum, this.pageSize)
+  //           }
+  //         })
+  //         .catch(err => {
+  //           console.log(err)
+  //         })
+  //     }
+  //   },
 
-    // -----------------------------------删除评论----------------------------
-    handleDelete (index, row) {
-      console.log(index, row)
+  //   // -----------------------------------删除评论----------------------------
+  //   handleDelete (index, row) {
+  //     console.log(index, row)
 
-      this.$instance2({
-        method: 'delete',
-        url: '/docomment/removeDoComment/',
-        params: {
-          id: row.userid
-        }
-      })
-        .then(res => {
-          console.log(res)
-          if (res.data.code == 1) {
-            this.getDataList(this.pageNum, this.pageSize)
-          }
-        })
-        .catch(err => {
-          console.log(err)
-        })
-    },
-    // -------------------------------------分页----------------------
-    handleSizeChange (val) {
-      this.pageSize = val
-      this.getDataList(this.pageNum, this.pageSize)
-    },
-    handleCurrentChange (val) {
-      this.pageNum = val
-      this.getDataList(this.pageNum, this.pageSize)
-    }
-  },
-  created () {
-    this.getDataList(this.pageNum, this.pageSize)
-  }
+  //     this.$instance2({
+  //       method: 'delete',
+  //       url: '/docomment/removeDoComment/',
+  //       params: {
+  //         id: row.userid
+  //       }
+  //     })
+  //       .then(res => {
+  //         console.log(res)
+  //         if (res.data.code == 1) {
+  //           this.getDataList(this.pageNum, this.pageSize)
+  //         }
+  //       })
+  //       .catch(err => {
+  //         console.log(err)
+  //       })
+  //   },
+  //   // -------------------------------------分页----------------------
+  //   handleSizeChange (val) {
+  //     this.pageSize = val
+  //     this.getDataList(this.pageNum, this.pageSize)
+  //   },
+  //   handleCurrentChange (val) {
+  //     this.pageNum = val
+  //     this.getDataList(this.pageNum, this.pageSize)
+  //   }
+  // },
+  // created () {
+  //   this.getDataList(this.pageNum, this.pageSize)
+  // }
 }
 </script>
 <style scoped>

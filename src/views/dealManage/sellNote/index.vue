@@ -78,60 +78,60 @@ export default {
       }
     }
   },
-  mounted () {
-    this.queryOrder() //要查数据就直接调用这个方法就好了
-  },
-  methods: {
-    // --------------------------------绑定解绑切换-----------------------
-    unbind (index, row) {
-      this.$instance1({
-        method: 'put',
-        url: '/sOrder/modifySaleRecordBindState',
-        params: {
-          id: row.id,
-          buyerWechatID: row.buyerWechatID,
-          distributorName: row.distributorName
-        }
-      }).then(res => {
-        console.log(res)
-        this.queryOrder()
-      })
-    },
-    queryOrder () {
-      this.loading = true
-      this.$instance1({
-        method: 'get',
-        url: '/sOrder/querySaleRecord',
-        params: this.formInline
-      }).then(res => {
-        this.loading = false
-        console.log(res)
-        this.tableData = res.data.list
-        this.total = res.data.total
-      })
-    },
-    // -------------------------------------分页----------------------
-    handleSizeChange (val) {
-      this.formInline.pageSize = val
-      this.queryOrder()
-    },
-    handleCurrentChange (val) {
-      this.formInline.pageNum = val
-      this.queryOrder()
-    },
-    // 限制入住时间可选日期
-    inDisabledDate (time) {
-      if (this.formInline.endTime === null) {
-        return time.getTime() > Date.now()
-      } else {
-        return time.getTime() > new Date(this.formInline.endTime).getTime()
-      }
-    },
-    // 限制离店时间可选日期
-    leaveDisabledDate (time) {
-      return time.getTime() < new Date(this.formInline.startTime).getTime()
-    }
-  }
+  // mounted () {
+  //   this.queryOrder() //要查数据就直接调用这个方法就好了
+  // },
+  // methods: {
+  //   // --------------------------------绑定解绑切换-----------------------
+  //   unbind (index, row) {
+  //     this.$instance1({
+  //       method: 'put',
+  //       url: '/sOrder/modifySaleRecordBindState',
+  //       params: {
+  //         id: row.id,
+  //         buyerWechatID: row.buyerWechatID,
+  //         distributorName: row.distributorName
+  //       }
+  //     }).then(res => {
+  //       console.log(res)
+  //       this.queryOrder()
+  //     })
+  //   },
+  //   queryOrder () {
+  //     this.loading = true
+  //     this.$instance1({
+  //       method: 'get',
+  //       url: '/sOrder/querySaleRecord',
+  //       params: this.formInline
+  //     }).then(res => {
+  //       this.loading = false
+  //       console.log(res)
+  //       this.tableData = res.data.list
+  //       this.total = res.data.total
+  //     })
+  //   },
+  //   // -------------------------------------分页----------------------
+  //   handleSizeChange (val) {
+  //     this.formInline.pageSize = val
+  //     this.queryOrder()
+  //   },
+  //   handleCurrentChange (val) {
+  //     this.formInline.pageNum = val
+  //     this.queryOrder()
+  //   },
+  //   // 限制入住时间可选日期
+  //   inDisabledDate (time) {
+  //     if (this.formInline.endTime === null) {
+  //       return time.getTime() > Date.now()
+  //     } else {
+  //       return time.getTime() > new Date(this.formInline.endTime).getTime()
+  //     }
+  //   },
+  //   // 限制离店时间可选日期
+  //   leaveDisabledDate (time) {
+  //     return time.getTime() < new Date(this.formInline.startTime).getTime()
+  //   }
+  // }
 }
 </script>
 <style scoped>

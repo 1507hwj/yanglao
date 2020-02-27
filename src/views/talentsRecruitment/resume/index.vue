@@ -663,7 +663,7 @@ import {
   entryOffice,
   leave,
   read1
-} from '@/network/job'
+} from '@/api/job'
 import { constants } from 'fs'
 export default {
   data() {

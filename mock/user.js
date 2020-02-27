@@ -63,13 +63,14 @@ export default [
         }
       }
 
-      return {
-        code: 20000,
-        data: token
-      }
-    }
-  },
+//       return {
+//         code: 20000,
+//         data: token
+//       }
+//     }
+//   },
 
+<<<<<<< HEAD
   // get user info
   {
     url: '/user/info\.*',
@@ -87,23 +88,40 @@ export default [
           message: '登录失败，无法获取用户详细信息。'
         }
       }
+=======
+//   // get user info
+//   {
+//     url: '/user/info\.*',
+//     type: 'get',
+//     response: config => {
+//       const { token } = config.query
+//       const info = users[token]
 
-      return {
-        code: 20000,
-        data: info
-      }
-    }
-  },
+//       // mock error
+//       if (!info) {
+//         return {
+//           code: 50008,
+//           message: 'Login failed, unable to get user details.'
+//         }
+//       }
+>>>>>>> f2a3f4c6e8681fb8c9b4358da21a834a26db8150
 
-  // user logout
-  {
-    url: '/user/logout',
-    type: 'post',
-    response: _ => {
-      return {
-        code: 20000,
-        data: 'success'
-      }
-    }
-  }
-]
+//       return {
+//         code: 20000,
+//         data: info
+//       }
+//     }
+//   },
+
+//   // user logout
+//   {
+//     url: '/user/logout',
+//     type: 'post',
+//     response: _ => {
+//       return {
+//         code: 20000,
+//         data: 'success'
+//       }
+//     }
+//   }
+// ]
