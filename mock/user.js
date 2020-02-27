@@ -1,25 +1,43 @@
-
 const tokens = {
   admin: {
     token: 'admin-token'
   },
   editor: {
     token: 'editor-token'
+  },
+  yc666: {
+    token: 'yc666-token'
+  },
+  yq666: {
+    token: 'yq666-token'
   }
 }
+
 
 const users = {
   'admin-token': {
     roles: ['admin'],
-    introduction: 'I am a super administrator',
+    introduction: '我是超级管理员',
     avatar: 'https://wpimg.wallstcn.com/f778738c-e4f8-4870-b634-56703b4acafe.gif',
-    name: 'Super Admin'
+    name: 'admin'
   },
   'editor-token': {
     roles: ['editor'],
-    introduction: 'I am an editor',
+    introduction: '我是编辑者',
     avatar: 'https://wpimg.wallstcn.com/f778738c-e4f8-4870-b634-56703b4acafe.gif',
-    name: 'Normal Editor'
+    name: 'editor'
+  },
+  'yc666-token': {
+    roles: ['yc666'],
+    introduction: '我是编辑者yc',
+    avatar: 'https://wpimg.wallstcn.com/f778738c-e4f8-4870-b634-56703b4acafe.gif',
+    name: 'yc666'
+  },
+  'yq666-token': {
+    roles: ['yq666'],
+    introduction: '我是编辑者yq',
+    avatar: 'https://wpimg.wallstcn.com/f778738c-e4f8-4870-b634-56703b4acafe.gif',
+    name: 'yq666'
   }
 }
 
@@ -29,14 +47,19 @@ export default [
     url: '/user/login',
     type: 'post',
     response: config => {
-      const { username } = config.body
+      console.log('config',config)
+      const {
+        username
+      } = config.body
       const token = tokens[username]
+      // const token = tokens
+      console.log('token',token)
 
       // mock error
       if (!token) {
         return {
           code: 60204,
-          message: 'Account and password are incorrect.'
+          message: '账号或密码错误'
         }
       }
 
@@ -52,14 +75,16 @@ export default [
     url: '/user/info\.*',
     type: 'get',
     response: config => {
-      const { token } = config.query
+      const {
+        token
+      } = config.query
       const info = users[token]
 
       // mock error
       if (!info) {
         return {
           code: 50008,
-          message: 'Login failed, unable to get user details.'
+          message: '登录失败，无法获取用户详细信息。'
         }
       }
 

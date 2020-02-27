@@ -1,6 +1,5 @@
 <template>
   <div :class="{'has-logo':showLogo}">
-    <!-- <img src="../../../assets/logo1.png" alt="" style="width:100%"> -->
     <logo :collapse="isCollapse" />
     <el-scrollbar wrap-class="scrollbar-wrapper">
       <el-menu :default-active="activeMenu" :collapse="isCollapse" :background-color="variables.menuBg" :text-color="variables.menuText" :unique-opened="false" :active-text-color="variables.menuActiveText" :collapse-transition="false" mode="vertical">
@@ -20,6 +19,7 @@ export default {
   components: { SidebarItem, Logo },
   computed: {
     ...mapGetters([
+      'permission_routes',
       'sidebar'
     ]),
     routes () {

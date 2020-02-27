@@ -55,62 +55,31 @@ export default {
       },
       loading: false,
       passwordType: 'password',
-      redirect: undefined
+      redirect: undefined,
+      otherQuery: {}
     };
   },
   //  监听页面的路径
   watch: {
     $route: {
       handler: function (route) {
-        this.redirect = route.query && route.query.redirect
+        //   this.redirect = route.query && route.query.redirect
+        // },
+        // immediate: true
+        const query = route.query
+        // console.log('query',query)
+        if (query) {
+          this.redirect = query.redirect
+          this.otherQuery = this.getOtherQuery(query)
+          // console.log('otherQuery', this.otherQuery)
+
+        }
       },
       immediate: true
     }
   },
   methods: {
     login () {
-      //  不使用封装的axios
-      //   let that = this
-      //   let fd = new FormData();
-      //   fd.append('account', this.loginForm.username);
-      //   fd.append('password', this.loginForm.password);
-      //   window.console.log('fd', fd, this.loginForm);
-      //   this.$refs.loginForm.validate(valid => {
-      //     if (valid) {
-      //     this.loading = true
-      //  this.$axios.post('http://120.25.214.5:8081/web/loginByAccount', fd, {
-      //   })
-      //     .then(res => {
-      //       this.loading = true
-      //       window.console.log('res', res);
-      //       if (res.data.code == 0) {
-      //         this.$message({
-      //           type: "warning",
-      //           message: "登陆失败!账号或密码错误"
-      //         });
-      //         return;
-      //       }
-      //       if (res.data.code == 1) {
-      //         this.$message({
-      //           type: "success",
-      //           message: "登陆成功!"
-      //         });
-      //         // 用户账号信息存入本地
-      //         this.$store.commit('setuserItem',this.loginForm.username)
-      //         // 路由跳转
-      //         this.$router.push({ path: this.redirect || '/' })
-      //         this.loading = false
-
-      //       }
-      //     })
-      //     .catch(function (err) {
-      //       window.console.log(err);
-      //     });
-      //     } else {
-      //       console.log('error submit!!')
-      //       return false
-      //     }
-      //   })
       // 使用封装好的方法
       window.console.log('6666');
 
@@ -118,7 +87,7 @@ export default {
         if (valid) {
           this.loading = true
           this.$store.dispatch('user/login', this.loginForm).then(() => {
-            this.$router.push({ path: this.redirect || '/' })
+            this.$router.push({ path: this.redirect || '/', query: this.otherQuery })
             console.log('redirect', this.redirect)
 
             this.Message({
@@ -135,6 +104,14 @@ export default {
           return false
         }
       })
+    },
+    getOtherQuery (query) {
+      return Object.keys(query).reduce((acc, cur) => {
+        if (cur !== 'redirect') {
+          acc[cur] = query[cur]
+        }
+        return acc
+      }, {})
     }
   }
 };

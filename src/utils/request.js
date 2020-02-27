@@ -11,8 +11,8 @@ import {
 // create an axios instance
 // 设置默认请求地址，所有请求从这里发起
 const service = axios.create({
-  //   baseURL: process.env.VUE_APP_BASE_API, // url = base url + request url
-  baseURL: 'http://120.25.214.5:8081',
+  baseURL: process.env.VUE_APP_BASE_API, // url = base url + request url
+  // baseURL: 'http://120.25.214.5:8081',
   // http://120.25.214.5:8081
   // http://192.168.1.171:8081
   // http://192.168.1.10:8081
@@ -59,7 +59,7 @@ service.interceptors.response.use(
     if (!res.code) {
       return res
     }
-    if (res.code != 1) {
+    if (res.code != 20000) {
       Message({
         message: res.msg || 'Error',
         type: 'error',
